@@ -2,84 +2,60 @@
 
 namespace App\Http\Controllers;
 
-use App\admin;
+use Hash;
 use Illuminate\Http\Request;
+use App\Admin;
+use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
+	// public function __construct(){
+	// 	$this->middleware('guest:admin')->except('logoutAdmin');
+	// }
+
+    public function loginAdmin(Request $request){
+    	$dataAdmin=Admin::where('username',$request->username)->first();
+    	if($dataAdmin!=null){
+    		if(Hash::check($request->password,$dataAdmin->password)){
+    			//password dan username yg diinput dan di db sesuai
+    			Auth::guard('admin')->LoginUsingId($dataAdmin->id);//auth guard untuk nentuin role yg login sbg apa
+    			return redirect('/adminHome');
+    			// echo "login admin sukses";
+    		}else{
+    			return redirect('/adminLogin')->with('alert',"username atau password salah");
+    		}
+    	}else{
+    		return redirect('/adminLogin')->with('alert',"Ulang login");
+    	}
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+    public function logoutAdmin(){
+    	if(Auth::guard('admin')->check()){
+    		Auth::guard('admin')->logout();
+    	}
+    	return redirect('/adminHome');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+    public function registerAdmin(Request $request){
+    	$pesan = [
+            'required' => ':attribute wajib diisi',
+            'unique' => ':attribute sudah ada',
+            'max' => ':attribute maksimal :max karakter',
+            'min' => ':attribute minimal :min karakter',
+        ];
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\admin  $admin
-     * @return \Illuminate\Http\Response
-     */
-    public function show(admin $admin)
-    {
-        //
-    }
+        $this->validate($request,[
+    		'username'=>'required|unique:admins|max:10',
+    		'name'=>'required|max:255',
+    		'password'=>'required|min:4'
+    	],$pesan);
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\admin  $admin
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(admin $admin)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\admin  $admin
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, admin $admin)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\admin  $admin
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(admin $admin)
-    {
-        //
+    	$admin= new Admin;
+    	$admin->username=$request->username;
+    	$admin->name=$request->name;
+    	$admin->password=Hash::make($request->password);
+    	$admin->save();
+    	return redirect('/adminLogin');
+    	// echo "regis sukses";
     }
 }
