@@ -42,12 +42,15 @@ class UserController extends Controller
         $this->validate($request,[
     		'email'=>'required|email',
     		'name'=>'required|max:255',
-    		'password'=>'required|min:4'
+    		'password'=>'required|required_with:conf_password|same:conf_password|min:4',
+            'conf_password'=>'min:4',
     	],$pesan);
     	$user= new User;
     	$user->email=$request->email;
     	$user->name=$request->name;
     	$user->password=Hash::make($request->password);
+        $user->profile_image=$request->profile_image;
+        $user->status=1;
     	$user->save();
     	return redirect('/userLogin');
     	// echo "regis sukses";

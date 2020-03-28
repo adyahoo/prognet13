@@ -47,13 +47,17 @@ class AdminController extends Controller
         $this->validate($request,[
     		'username'=>'required|unique:admins|max:10',
     		'name'=>'required|max:255',
-    		'password'=>'required|min:4'
+    		'password'=>'required|required_with:conf_password|same:conf_password|min:4',
+            'conf_password' => 'min:4',
+            'phone' => 'max:13',
     	],$pesan);
 
     	$admin= new Admin;
     	$admin->username=$request->username;
     	$admin->name=$request->name;
     	$admin->password=Hash::make($request->password);
+        $admin->profile_image=$request->profile_image;
+        $admin->phone=$request->phone;
     	$admin->save();
     	return redirect('/adminLogin');
     	// echo "regis sukses";
