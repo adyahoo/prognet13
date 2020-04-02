@@ -77,6 +77,20 @@
                 <div class="title m-b-md">
                     Kamu User kan?
                 </div>
+                 <center>
+                    <table>
+                        <tr>
+                            <th>Profile</th>
+                            <th>Nama</th>
+                        </tr>
+                        @foreach($user as $users)
+                        <tr>
+                            <td><img width="100px" src="{{ url('/userProfile/'.$users->profile_image)}}"></td>
+                            <td>{{$users->name}}</td>
+                        </tr>
+                        @endforeach
+                    </table>
+                </center>
 
                 <div class="links">
                     <a href="https://laravel.com/docs">Docs</a>

@@ -27,9 +27,7 @@ Route::get('/adminRegister', function(){
 	return view('auth.adminregister');
 });
 Route::get('/adminLogout','AdminController@logoutAdmin');
-Route::get('/adminHome', function(){
-	return view('admin.home');
-})->middleware('admin:admin');	
+Route::get('/adminHome', 'AdminController@index')->middleware('admin:admin');	
 
 //route user
 Route::post('/userLogin','UserController@loginUser');
@@ -41,6 +39,4 @@ Route::get('/userRegister', function(){
 	return view('auth.userregister');
 });
 Route::get('/userLogout','UserController@logoutUser');
-Route::get('/userHome', function(){
-	return view('user.home');
-})->middleware('admin:user');
+Route::get('/userHome', 'UserController@index')->middleware('admin:user');

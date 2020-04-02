@@ -37,12 +37,12 @@
 				<div class="login100-pic js-tilt" data-tilt>
 					<img src="{{asset('assets/images/lol.jpg')}}" alt="IMG">
 				</div>
-				<form class="login100-form validate-form" method="POST" action="/userRegister">
+				<form class="login100-form validate-form" method="POST" action="/userRegister" enctype="multipart/form-data">
 					@csrf
 					<span class="login100-form-title">
 						User Register
 					</span>
-
+					<input type="hidden" name="id" id="id" value="">
 					<div class="wrap-input100 validate-input" data-validate = "Valid Email is required">
 						<input class="input100" type="text" name="email" placeholder="Email">
 						<span class="focus-input100"></span>

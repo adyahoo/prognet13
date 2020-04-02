@@ -13,6 +13,11 @@ class AdminController extends Controller
 	// 	$this->middleware('guest:admin')->except('logoutAdmin');
 	// }
 
+    public function index(){
+        $admin = Admin::get();
+        return view('admin.home',compact('admin'));
+    }
+
     public function loginAdmin(Request $request){
     	$dataAdmin=Admin::where('username',$request->username)->first();
     	if($dataAdmin!=null){
@@ -37,7 +42,20 @@ class AdminController extends Controller
     }
 
     public function registerAdmin(Request $request){
-    	$pesan = [
+    	//menyimpan file yg diupload ke variable
+        $file = $request->file('profile');
+        // echo $file->getClientOriginalName();
+        // echo $request->name;;
+
+        //direktori tempat file yg diupload disimpan
+        // $path = $request->file('profile')->store('adminProfile');
+        $path = 'adminProfile';
+        $name_file = $file->getClientOriginalName()."_".$request->username."_".time();
+
+        //upload file ke storage larapel
+        $file->move($path,$name_file);
+
+        $pesan = [
             'required' => ':attribute wajib diisi',
             'unique' => ':attribute sudah ada',
             'max' => ':attribute maksimal :max karakter',
@@ -56,10 +74,10 @@ class AdminController extends Controller
     	$admin->username=$request->username;
     	$admin->name=$request->name;
     	$admin->password=Hash::make($request->password);
-        $admin->profile_image=$request->profile_image;
+        $admin->profile_image=$name_file;
         $admin->phone=$request->phone;
     	$admin->save();
-    	return redirect('/adminLogin');
+    	return redirect('/adminHome');
     	// echo "regis sukses";
     }
 }

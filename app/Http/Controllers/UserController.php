@@ -9,6 +9,11 @@ use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
+    public function index(){
+        $user = User::get();
+        return view('user.home',compact('user'));
+    }
+
     public function loginUser(Request $request){
     	$dataUser=User::where('email',$request->email)->first();
     	if($dataUser!=null){
@@ -33,6 +38,14 @@ class UserController extends Controller
     }
 
     public function registerUser(Request $request){
+        //masukkan file upload ke variable dan tujuan file
+        $file = $request->file('profile_image');
+        $path = 'userProfile';
+        $name_file = $file->getClientOriginalName()."_".$request->name."_".time();
+
+        //proses upload ke storage larapel
+        $file->move($path,$name_file);
+
     	$pesan = [
             'required' => ':attribute wajib',
             'max' => ':attribute maksimal :max karakter',
@@ -49,10 +62,10 @@ class UserController extends Controller
     	$user->email=$request->email;
     	$user->name=$request->name;
     	$user->password=Hash::make($request->password);
-        $user->profile_image=$request->profile_image;
+        $user->profile_image=$name_file;
         $user->status=1;
     	$user->save();
-    	return redirect('/userLogin');
+    	return redirect('/userHome');
     	// echo "regis sukses";
     }
 }

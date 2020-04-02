@@ -75,10 +75,20 @@
             @endif
 
             <div class="content">
-                <div class="title m-b-md">
-                    Kamu Admin ya?
-                </div>
-
+                <center>
+                    <table>
+                        <tr>
+                            <th>Profile</th>
+                            <th>Nama</th>
+                        </tr>
+                        @foreach($admin as $admins)
+                        <tr>
+                            <td><img width="100px" src="{{ url('/adminProfile/'.$admins->profile_image)}}"></td>
+                            <td>{{$admins->name}}</td>
+                        </tr>
+                        @endforeach
+                    </table>
+                </center>
                 <div class="links">
                     <a href="https://laravel.com/docs">Docs</a>
                     <a href="https://laracasts.com">Laracasts</a>

@@ -39,7 +39,7 @@
 					<img src="{{asset('assets/images/lol.jpg')}}" alt="IMG">
 				</div>
 
-				<form class="login100-form validate-form" method="POST" action="/adminRegister">
+				<form class="login100-form validate-form" method="POST" action="/adminRegister" enctype="multipart/form-data">
 					@csrf
 					<span class="login100-form-title">
 						Admin Register
@@ -86,7 +86,7 @@
 					</div>
 
 					<div class="wrap-input100 validate-input" data-validate = "Profile is required">
-						<input class="input100" type="file" name="profile_image" placeholder="Profile Image">
+						<input class="input100" type="file" name="profile" id="profile" placeholder="Profile Image">
 						<span class="focus-input100"></span>
 						<span class="symbol-input100">
 							<i class="fa fa-envelope" aria-hidden="true"></i>
