@@ -79,7 +79,7 @@
     <script src="{{asset('fresh/js/jquery.superslides.min.js')}}"></script>
     <script src="{{asset('fresh/js/bootstrap-select.js')}}"></script>
     <script src="{{asset('fresh/js/inewsticker.js')}}"></script>
-    <script src="{{asset('fresh/js/bootsnav.js.')}}"></script>
+    <script src="{{asset('fresh/js/bootsnav.js')}}"></script>
     <script src="{{asset('fresh/js/images-loded.min.js')}}"></script>
     <script src="{{asset('fresh/js/isotope.min.js')}}"></script>
     <script src="{{asset('fresh/js/owl.carousel.min.js')}}"></script>

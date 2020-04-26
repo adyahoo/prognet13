@@ -8,7 +8,7 @@
                     </div>
                     <div class="our-link">
                         <ul>
-                            <li><a href="#"><i class="fa fa-user s_color"></i> Akun Saya</a></li>
+                            <li><a href="{{ url('/dashboard') }}"><i class="fa fa-user s_color"></i> Akun Saya</a></li>
                             <li><a href="#"><i class="fas fa-location-arrow"></i> Lokasi Kami</a></li>
                             <li><a href="#"><i class="fas fa-headset"></i> Contact Us</a></li>
                         </ul>

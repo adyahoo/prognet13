@@ -48,6 +48,14 @@
                             </div>
                         </div>
                         <div class="row row-space">
+                            <div class="col-10">
+                                <div class="input-group">
+                                    <label class="label">Username</label>
+                                    <input class="input--style-4" type="text" name="username">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row row-space">
                             <div class="col-2">
                                 <div class="input-group">
                                     <label class="label">Birthday</label>
@@ -102,16 +110,14 @@
                             </div>
                         </div>
                         <div class="input-group">
-                            <label class="label">Subject</label>
-                            <div class="rs-select2 js-select-simple select--no-search">
-                                <select name="subject">
-                                    <option disabled="disabled" selected="selected">Choose option</option>
-                                    <option>Subject 1</option>
-                                    <option>Subject 2</option>
-                                    <option>Subject 3</option>
-                                </select>
-                                <div class="select-dropdown"></div>
-                            </div>
+                            <label class="label">Profil Image</label>
+                            <div class="input--style-4" data-validate = "Profile is required">
+                                <input class="input100" type="file" name="profile_image" placeholder="Profile Image">
+                                    <span class="focus-input100"></span>
+                                    <span class="symbol-input100">
+                                        <i class="fa fa-envelope" aria-hidden="true"></i>
+                                    </span>
+					        </div>
                         </div>
                         <div class="row row-space">
                             <div class="col-2">

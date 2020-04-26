@@ -7,24 +7,23 @@
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-menu" aria-controls="navbars-rs-food" aria-expanded="false" aria-label="Toggle navigation">
                     <i class="fa fa-bars"></i>
                 </button>
-                    <a class="navbar-brand" href="/"><img src="fresh/images/logo.png" class="logo" alt=""></a>
+                    <a class="navbar-brand" href="{{ url('/') }}"><img src="fresh/images/logo.png" class="logo" alt=""></a>
                 </div>
                 <!-- End Header Navigation -->
 
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="navbar-menu">
                     <ul class="nav navbar-nav ml-auto" data-in="fadeInDown" data-out="fadeOutUp">
-                        <li class="nav-item active"><a class="nav-link" href="/">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/about">About Us</a></li>
+                        <li class="nav-item active"><a class="nav-link" href="{{ url('/') }}">Home</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ url('/about') }}">About Us</a></li>
                         <li class="dropdown">
-                            <a href="#" class="nav-link dropdown-toggle arrow" data-toggle="dropdown">SHOP</a>
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">SHOP</a>
                             <ul class="dropdown-menu">
-								<li><a href="/shop">Sidebar Shop</a></li>
-								<li><a href="/shopdetail">Shop Detail</a></li>
-                                <li><a href="/cart">Cart</a></li>
-                                <li><a href="/checkout">Checkout</a></li>
-                                <li><a href="/myaccount">My Account</a></li>
-                                <li><a href="/wishlist">Wishlist</a></li>
+								<li><a href="{{ url('/products') }}">Products Shop</a></li>
+                                <li><a href="{{ url('/cart') }}">Cart</a></li>
+                                <li><a href="{{ url('/checkout') }}">Checkout</a></li>
+                                <li><a href="{{ url('/myaccount') }}">My Account</a></li>
+                                <li><a href="{{ url('/wishlist') }}">Wishlist</a></li>
                             </ul>
                         </li>
                         <li class="nav-item"><a class="nav-link" href="/galery">Gallery</a></li>

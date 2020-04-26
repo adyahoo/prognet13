@@ -53,24 +53,14 @@
     <div class="categories-shop">
         <div class="container">
             <div class="row">
-                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                    <div class="shop-cat-box">
-                        <img class="img-fluid" src="fresh/images/categories_img_01.jpg" alt="" />
-                        <a class="btn hvr-hover" href="#">Lorem ipsum dolor</a>
+                @foreach($products as $product)
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                        <div class="shop-cat-box">
+                            <img class="img-fluid" src="{{ $product->product_image->image_name }}" alt="" />
+                            <a class="btn hvr-hover" href="/products/{{ $product->id }}">{{ $product->product_name }}</a>
+                        </div>
                     </div>
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                    <div class="shop-cat-box">
-                        <img class="img-fluid" src="fresh/images/categories_img_02.jpg" alt="" />
-                        <a class="btn hvr-hover" href="#">Lorem ipsum dolor</a>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                    <div class="shop-cat-box">
-                        <img class="img-fluid" src="fresh/images/categories_img_03.jpg" alt="" />
-                        <a class="btn hvr-hover" href="#">Lorem ipsum dolor</a>
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
     </div>
@@ -117,16 +107,39 @@
             </div>
 
             <div class="row special-list">
+            <div class="col-lg-3 col-md-6 special-grid top-featured">
+                    <div class="products-single fix">
+                        <div class="box-img-hover">
+                            <div class="type-lb">
+                                <p class="sale">Sale</p>
+                            </div>
+                            <img src="{{ $product->product_image->image_name }}" class="img-fluid" alt="Image">
+                            <div class="mask-icon">
+                                <ul>
+                                    <li><a href="/products/{{ $product->id }}" data-toggle="tooltip" data-placement="right" title="View"><i class="fas fa-eye"></i></a></li>
+                                    <li><a href="#" data-toggle="tooltip" data-placement="right" title="Compare"><i class="fas fa-sync-alt"></i></a></li>
+                                    <li><a href="#" data-toggle="tooltip" data-placement="right" title="Add to Wishlist"><i class="far fa-heart"></i></a></li>
+                                </ul>
+                                <a class="cart" href="#">Add to Cart</a>
+                            </div>
+                        </div>
+                        <div class="why-text">
+                            <h4>{{ $product->product_name }}</h4>
+                            <h5>Rp. {{ $product->price }}/kg</h5>
+                        </div>
+                    </div>
+                </div>
+            @foreach($products as $product)
                 <div class="col-lg-3 col-md-6 special-grid best-seller">
                     <div class="products-single fix">
                         <div class="box-img-hover">
                             <div class="type-lb">
                                 <p class="sale">Sale</p>
                             </div>
-                            <img src="fresh/images/img-pro-01.jpg" class="img-fluid" alt="Image">
+                            <img src="{{ $product->product_image->image_name }}" class="img-fluid" alt="Image">
                             <div class="mask-icon">
                                 <ul>
-                                    <li><a href="#" data-toggle="tooltip" data-placement="right" title="View"><i class="fas fa-eye"></i></a></li>
+                                    <li><a href="/products/{{ $product->id }}" data-toggle="tooltip" data-placement="right" title="View"><i class="fas fa-eye"></i></a></li>
                                     <li><a href="#" data-toggle="tooltip" data-placement="right" title="Compare"><i class="fas fa-sync-alt"></i></a></li>
                                     <li><a href="#" data-toggle="tooltip" data-placement="right" title="Add to Wishlist"><i class="far fa-heart"></i></a></li>
                                 </ul>
@@ -134,80 +147,13 @@
                             </div>
                         </div>
                         <div class="why-text">
-                            <h4>Lorem ipsum dolor sit amet</h4>
-                            <h5> $7.79</h5>
+                            <h4>{{ $product->product_name }}</h4>
+                            <h5>Rp. {{ $product->price }}/kg</h5>
                         </div>
                     </div>
                 </div>
-
-                <div class="col-lg-3 col-md-6 special-grid top-featured">
-                    <div class="products-single fix">
-                        <div class="box-img-hover">
-                            <div class="type-lb">
-                                <p class="new">New</p>
-                            </div>
-                            <img src="fresh/images/img-pro-02.jpg" class="img-fluid" alt="Image">
-                            <div class="mask-icon">
-                                <ul>
-                                    <li><a href="#" data-toggle="tooltip" data-placement="right" title="View"><i class="fas fa-eye"></i></a></li>
-                                    <li><a href="#" data-toggle="tooltip" data-placement="right" title="Compare"><i class="fas fa-sync-alt"></i></a></li>
-                                    <li><a href="#" data-toggle="tooltip" data-placement="right" title="Add to Wishlist"><i class="far fa-heart"></i></a></li>
-                                </ul>
-                                <a class="cart" href="#">Add to Cart</a>
-                            </div>
-                        </div>
-                        <div class="why-text">
-                            <h4>Lorem ipsum dolor sit amet</h4>
-                            <h5> $9.79</h5>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-3 col-md-6 special-grid top-featured">
-                    <div class="products-single fix">
-                        <div class="box-img-hover">
-                            <div class="type-lb">
-                                <p class="sale">Sale</p>
-                            </div>
-                            <img src="fresh/images/img-pro-03.jpg" class="img-fluid" alt="Image">
-                            <div class="mask-icon">
-                                <ul>
-                                    <li><a href="#" data-toggle="tooltip" data-placement="right" title="View"><i class="fas fa-eye"></i></a></li>
-                                    <li><a href="#" data-toggle="tooltip" data-placement="right" title="Compare"><i class="fas fa-sync-alt"></i></a></li>
-                                    <li><a href="#" data-toggle="tooltip" data-placement="right" title="Add to Wishlist"><i class="far fa-heart"></i></a></li>
-                                </ul>
-                                <a class="cart" href="#">Add to Cart</a>
-                            </div>
-                        </div>
-                        <div class="why-text">
-                            <h4>Lorem ipsum dolor sit amet</h4>
-                            <h5> $10.79</h5>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-3 col-md-6 special-grid best-seller">
-                    <div class="products-single fix">
-                        <div class="box-img-hover">
-                            <div class="type-lb">
-                                <p class="sale">Sale</p>
-                            </div>
-                            <img src="fresh/images/img-pro-04.jpg" class="img-fluid" alt="Image">
-                            <div class="mask-icon">
-                                <ul>
-                                    <li><a href="#" data-toggle="tooltip" data-placement="right" title="View"><i class="fas fa-eye"></i></a></li>
-                                    <li><a href="#" data-toggle="tooltip" data-placement="right" title="Compare"><i class="fas fa-sync-alt"></i></a></li>
-                                    <li><a href="#" data-toggle="tooltip" data-placement="right" title="Add to Wishlist"><i class="far fa-heart"></i></a></li>
-                                </ul>
-                                <a class="cart" href="#">Add to Cart</a>
-                            </div>
-                        </div>
-                        <div class="why-text">
-                            <h4>Lorem ipsum dolor sit amet</h4>
-                            <h5> $15.79</h5>
-                        </div>
-                    </div>
-                </div>
+                @endforeach
+                
             </div>
         </div>
     </div>
