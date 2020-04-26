@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// <<<<<<< HEAD
 Route::get('/', 'HomesController@index');
 Route::get('/products', 'ProductsController@index');
 Route::get('/products/{product}', 'ProductsController@show');
@@ -44,13 +45,13 @@ Route::get('/dashboard', function () {
     return view('account.dashboard');
 });
 
-Route::get('/register', function () {
-    return view('register');
-});
+// Route::get('/register', function () {
+//     return view('register');
+// });
 
-Route::get('/loginn', function () {
-    return view('loginn');
-});
+// Route::get('/loginn', function () {
+//     return view('loginn');
+// });
 
 Route::get('/about', function () {
     return view('about');
@@ -76,9 +77,9 @@ Route::get('/myaccount', function () {
     return view('myaccount');
 });
 
-// Route::get('/shop', function () {
-//     return view('shop');
-// });
+Route::get('/shop', function () {
+    return view('shop');
+});
 
 Route::get('/shopdetail', function () {
     return view('products.shopdetail');
@@ -93,3 +94,32 @@ Route::get('/wishlist', function () {
 Route::get('/tabel', function () {
     return view('tabel');
 });
+=======
+// Route::get('/', function () {
+//     return view('home');
+// });
+
+//route admin
+Route::post('/adminLogin','AdminController@loginAdmin');
+Route::get('/adminLogin', function(){
+	return view('auth.adminlogin');
+});
+Route::post('/adminRegister','AdminController@registerAdmin');
+Route::get('/adminRegister', function(){
+	return view('auth.adminregister');
+});
+Route::get('/adminLogout','AdminController@logoutAdmin');
+Route::get('/adminHome', 'AdminController@index')->middleware('admin:admin');	
+
+//route user
+Route::post('/userLogin','UserController@loginUser');
+Route::get('/userLogin', function(){
+	return view('auth.userlogin');
+})->name('login');
+Route::post('/userRegister','UserController@registerUser');
+Route::get('/userRegister', function(){
+	return view('auth.userregister');
+});
+Route::get('/userLogout','UserController@logoutUser');
+Route::get('/userHome', 'UserController@index')->middleware('admin:user');
+>>>>>>> master
