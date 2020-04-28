@@ -24,7 +24,7 @@ class AdminController extends Controller
     		if(Hash::check($request->password,$dataAdmin->password)){
     			//password dan username yg diinput dan di db sesuai
     			Auth::guard('admin')->LoginUsingId($dataAdmin->id);//auth guard untuk nentuin role yg login sbg apa
-    			return redirect('/adminHome');
+    			return redirect('/dashboard');
     			// echo "login admin sukses";
     		}else{
     			return redirect('/adminLogin')->with('alert',"username atau password salah");
@@ -38,7 +38,7 @@ class AdminController extends Controller
     	if(Auth::guard('admin')->check()){
     		Auth::guard('admin')->logout();
     	}
-    	return redirect('/adminHome');
+    	return redirect('/');
     }
 
     public function registerAdmin(Request $request){
@@ -77,7 +77,7 @@ class AdminController extends Controller
         $admin->profile_image=$name_file;
         $admin->phone=$request->phone;
     	$admin->save();
-    	return redirect('/adminHome');
+    	return redirect('/dashboard');
     	// echo "regis sukses";
     }
 }

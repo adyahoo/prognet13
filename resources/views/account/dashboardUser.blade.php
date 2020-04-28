@@ -9,7 +9,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-<title>List Products</title>
+<title>Dashboard</title>
 
   <!-- Custom fonts for this template-->
   <link href="{{asset('akun/vendor/fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">
@@ -37,7 +37,7 @@
       <hr class="sidebar-divider my-0">
 
       <!-- Nav Item - Dashboard -->
-      <li class="nav-item">
+      <li class="nav-item active">
         <a class="nav-link" href="{{ url('/dashboard') }}">
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>Dashboard</span></a>
@@ -52,16 +52,14 @@
       </div>
 
       <!-- Nav Item - Pages Collapse Menu -->
-        <li class="nav-item">
+        <li class="nav-item ">
           <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
             <i class="fas fa-users"></i>
-            <span>Admin</span>
+            <span>User</span>
           </a>
           <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-              <h6 class="collapse-header">Kelola Admin:</h6>
-              <a class="collapse-item" href="{{ url('/dataadmin') }}">List Admin</a>
-              <a class="collapse-item" href="{{ url('/buatadmin') }}">Create Admin</a>
+              <h6 class="collapse-header">Kelola User:</h6> 
             </div>
           </div>
         </li>
@@ -72,7 +70,7 @@
           <span>Data User</span></a>
       </li>
 
-        <li class="nav-item active">
+        <li class="nav-item">
           <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
             <i class="fas fa-desktop"></i>
             <span>Product</span>
@@ -80,7 +78,7 @@
           <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
               <h6 class="collapse-header">Kelola Product:</h6>
-              <a class="collapse-item active" href="{{ url('/listproduct') }}">List Product</a>
+              <a class="collapse-item" href="{{ url('/listproduct') }}">List Product</a>
               <a class="collapse-item" href="{{ url('/buatproduct') }}">Create Product</a>
             </div>
           </div>
@@ -293,7 +291,7 @@
             <!-- Nav Item - User Information -->
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">admin</span>
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small">User</span>
                 <img class="img-profile rounded-circle" src="https://www.gstatic.com/images/branding/product/1x/admin_512dp.png">
               </a>
               <!-- Dropdown - User Information -->
@@ -327,58 +325,16 @@
         <div class="container-fluid">
 
           <!-- Page Heading -->
-          <h1 class="h3 mb-2 text-gray-800">List Buah</h1>
+          <h1 class="h3 mb-2 text-gray-800">PLACEHOLDER</h1>
 
           <!-- DataTales Example -->
           <div class="card shadow mb-4">
             <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">List Buah</h6>
+              <h6 class="m-0 font-weight-bold text-primary">PLACEHOLDER</h6>
             </div>
             <div class="card-body">
             <!-- dari sini -->
-            @if (session('status'))
-                  <div class="alert alert-success">
-                    {{ session('status') }}
-                  </div>
-                @endif
-              <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                  <thead>
-                    <tr>
-                      <th>No</th>
-                      <th>Product Name</th>
-                      <th>Price</th>
-                      <th>Rate</th>
-                      <th>Stock</th>
-                      <th>Weight</th>
-                      <th>Aksi</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    @foreach($products as $product)
-                        <tr>
-                            <td>{{ $loop->iteration }}</td>
-                            <td>{{ $product->product_name }}</td>
-                            <td>Rp.{{ $product->price }}</td>
-                            <td>{{ $product->product_rate }}</td>
-                            <td>{{ $product->stock }}</td>
-                            <td>{{ $product->weight }}</td>
-                            <td>
-                            <center>
-                            <a href="/listproduct/{{ $product->id }}/edit" class="btn btn-primary">Edit</a>
-                            <form action="/listproduct/{{ $product->id }}" method="POST" class="d-inline">
-                              @method('delete')
-                              @csrf
-                              <button type="submit" class="btn btn-danger">Delete</button>
-                            </form>
-                            </center>
-                            
-                            </td>
-                        </tr>
-                    @endforeach
-                  </tbody>
-                </table>
-              </div>
+              PLACEHOLDER
               <!-- sampe sini -->
             </div>
           </div>
@@ -423,7 +379,7 @@
         <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="login.html">Logout</a>
+          <a class="btn btn-primary" href="/userLogout">Logout</a>
         </div>
       </div>
     </div>

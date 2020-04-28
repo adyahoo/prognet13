@@ -5,8 +5,11 @@ namespace App\Http\Controllers;
 use Hash;
 use App\Category;
 use App\Product;
+use App\Product_image;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+// use Illuminate\Support\Facades\File;
+
 
 class ListProductsController extends Controller
 {
@@ -17,8 +20,10 @@ class ListProductsController extends Controller
      */
     public function index()
     {
-        $products = Product::all();
+        $products = Product::get();
+        $prod_images = Product_image::get();
         return view('admin.listproduct', compact('products'));
+        // echo $products;
     }
 
     /**
@@ -46,25 +51,42 @@ class ListProductsController extends Controller
             'description' => 'required',
             'stock' => 'required|numeric',
             'weight' => 'required|numeric',
-            // 'image_name' => 'required',
+            'image_name' => 'required',
             // 'category' => 'required',
         ]);
         
-
-        // $file = $request->file('image_name');
-        // $path = 'public/fresh/images';
-        // $name_file = $file->getClientOriginalName()."_".$request->name."_".time();
+        $file = $request->file('image_name');
+        // echo $berkas;
+        // echo $berkas->getClientOriginalName();
+        $path = 'fresh/images';
+        $name_file = $request->product_name."_".time()."_".$file->getClientOriginalName();
+        // echo $name_file;
 
         // //proses upload ke storage larapel
-        // $file->move($path,$name_file);
+        $file->move($path,$name_file);
 
         Product::create([
+            'id' => $request->id,
             'product_name' => $request->product_name,
             'price' => $request->price,
             'description' => $request->description,
             'stock' => $request->stock,
             'weight' => $request->weight
         ]);
+
+
+        $product = Product::where('product_name',$request->product_name)->get();
+        // echo $product;
+        foreach ($product as $products) {
+            $product_id = $products->id;
+        }
+        // // echo $product_id;
+        $image = new Product_image;
+        $image->product_id = $product_id;
+        $image->image_name = $name_file;
+        $image->save();
+        // echo "sukses";
+
         // Product_image::create([
         //     'image_name' => $request->image_name,
         // ]);
@@ -75,7 +97,7 @@ class ListProductsController extends Controller
         // ]);
 
 
-        return redirect('/buatproduct')->with('status', 'Data Product Berhasil Ditambahkan!');
+        return redirect('/listproduct')->with('status', 'Data Product Berhasil Ditambahkan!');
     }
 
     /**
@@ -117,6 +139,25 @@ class ListProductsController extends Controller
                     'stock' => $request->stock,
                     'weight' => $request->weight
                 ]);
+
+        $file = $request->file('image_name');
+        // echo $berkas;
+        // echo $berkas->getClientOriginalName();
+        $path = 'fresh/images';
+        $name_file = $request->product_name."_".time()."_".$file->getClientOriginalName();
+        // echo $name_file;
+
+        // //proses upload ke storage larapel
+        $file->move($path,$name_file);
+
+        $product_id = $request->id;
+        // echo $product_id;
+        Product_image::where('product_id',$request->id)
+            ->update([
+                'product_id' => $request->id,
+                'image_name' => $name_file
+            ]);
+
         return redirect('/listproduct')->with('status', 'Data Product Berhasil Diubah!');
     }
 

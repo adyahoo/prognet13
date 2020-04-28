@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Product;
+use App\Product_Image;
 use Illuminate\Http\Request;
 
 class ProductsController extends Controller
@@ -15,7 +16,8 @@ class ProductsController extends Controller
     public function index()
     {
         $products = Product::all();
-        return view('products.shop', compact('products'));
+        $all_images = Product_Image::with('Product')->get();
+        return view('products.shop', compact('all_images','products'));
     }
 
     /**

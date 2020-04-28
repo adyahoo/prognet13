@@ -41,9 +41,12 @@ Route::delete('/listcourier/{courier}', 'CouriersController@destroy');
 Route::get('/buatcourier', 'CouriersController@create');
 Route::POST('/buatcourier', 'CouriersController@store');
 
-Route::get('/dashboard', function () {
+Route::get('/dashboard', function(){
     return view('account.dashboard');
-});
+})->middleware('admin:admin');
+Route::get('/dashboardUser', function(){
+    return view('account.dashboardUser');
+})->middleware('admin:user');
 
 // Route::get('/register', function () {
 //     return view('register');
@@ -94,7 +97,7 @@ Route::get('/wishlist', function () {
 Route::get('/tabel', function () {
     return view('tabel');
 });
-=======
+
 // Route::get('/', function () {
 //     return view('home');
 // });
@@ -116,10 +119,15 @@ Route::post('/userLogin','UserController@loginUser');
 Route::get('/userLogin', function(){
 	return view('auth.userlogin');
 })->name('login');
+// Route::get('/userLogin', function(){
+//     return view('loginn');
+// })->name('login');
 Route::post('/userRegister','UserController@registerUser');
 Route::get('/userRegister', function(){
-	return view('auth.userregister');
+    return view('auth.userregister');
 });
+// Route::get('/userRegister', function(){
+//     return view('register');
+// });
 Route::get('/userLogout','UserController@logoutUser');
 Route::get('/userHome', 'UserController@index')->middleware('admin:user');
->>>>>>> master

@@ -6,10 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
+    protected $table = "products";
     protected $fillable = ['product_name', 'price', 'description', 'stock', 'weight'];
+    
     public function product_image()
     {
-    	return $this->hasOne('App\Product_Image');
+    	return $this->belongsTo('App\Product_Image');
     }
 
     public function product_review()

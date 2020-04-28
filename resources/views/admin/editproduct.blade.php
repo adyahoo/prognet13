@@ -336,7 +336,7 @@
                 </div>
                 <div class="card-body">
                 <!-- dari sini -->
-                <form method="POST" action="/listproduct/{{ $product->id }}">
+                <form method="POST" action="/listproduct/{{ $product->id }}" enctype="multipart/form-data">
                   @method('patch')
                   @csrf
                   <div class="form-group">
@@ -346,6 +346,7 @@
                               </div>
                           @endif
                     <div class="form-row ">
+                      <input type="hidden" name="id" id="id" value="{{$product->id}}">
                       <div class="col">
                         <label for="nama">Nama Product</label>
                         <input type="text" class="form-control @error('product_name') is-invalid @enderror" id="nama" placeholder="Ex: Apel" name="product_name" value="{{ $product->product_name }}">
@@ -388,17 +389,14 @@
                                   <!-- </select>	 -->
 							              <!-- </div> -->
                         <!-- </div> --> 
-                        <!-- <div class="col">
+                        <div class="col">
                             <label class="label">Profil Image</label>
-                              <div class="form-group" > -->
+                              <div class="form-group" >
                               <!-- data-validate = "Profile is required" -->
-                                  <!-- <input class="form-control" type="file" name="image_name" placeholder="Profile Image">
+                                  <input class="form-control" type="file" name="image_name" placeholder="Profile Image">
                                       <span class="focus-input100"></span>
-                                      <span class="symbol-input100">
-                                          <i class="fa fa-envelope" aria-hidden="true"></i>
-                                      </span>
                               </div>
-                            </div> -->
+                            </div>
                     <!-- </div> -->
                   </div>
                   

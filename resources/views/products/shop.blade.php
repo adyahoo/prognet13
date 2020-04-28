@@ -40,17 +40,17 @@
                                 <div role="tabpanel" class="tab-pane fade show active" id="grid-view">
                                     <div class="row">
 
-                                        @foreach($products as $product)
+                                        @foreach($all_images as $image)
                                             <div class="col-sm-6 col-md-6 col-lg-4 col-xl-4">
                                                 <div class="products-single fix">
                                                     <div class="box-img-hover">
                                                         <div class="type-lb">
                                                             <p class="sale">Sale</p>
                                                         </div>
-                                                        <img src="{{ $product->product_image->image_name }}" class="img-fluid" alt="Image">
+                                                        <img src="{{ url('/fresh/images/'.$image->image_name) }}" class="img-fluid" alt="Image">
                                                         <div class="mask-icon">
                                                             <ul>
-                                                                <li><a href="/products/{{ $product->id }}" data-toggle="tooltip" data-placement="right" title="View"><i class="fas fa-eye"></i></a></li>
+                                                                <li><a href="/products/{{ $image->product->id }}" data-toggle="tooltip" data-placement="right" title="View"><i class="fas fa-eye"></i></a></li>
                                                                 <li><a href="#" data-toggle="tooltip" data-placement="right" title="Compare"><i class="fas fa-sync-alt"></i></a></li>
                                                                 <li><a href="#" data-toggle="tooltip" data-placement="right" title="Add to Wishlist"><i class="far fa-heart"></i></a></li>
                                                             </ul>
@@ -58,8 +58,8 @@
                                                         </div>
                                                     </div>
                                                     <div class="why-text">
-                                                        <h4>{{ $product->product_name }}</h4>
-                                                        <h5>Rp. {{ $product->price }}/kg</h5>
+                                                        <h4>{{ $image->product->product_name }}</h4>
+                                                        <h5>Rp. {{ $image->product->price }}/kg</h5>
                                                     </div>
                                                 </div>
                                             </div>
@@ -69,7 +69,7 @@
                                 </div>
                                 <div role="tabpanel" class="tab-pane fade" id="list-view">
 
-                                    @foreach($products as $product)
+                                    @foreach($all_images as $image)
                                     <div class="list-view-box">
                                         <div class="row">
                                             <div class="col-sm-6 col-md-6 col-lg-4 col-xl-4">
@@ -78,10 +78,10 @@
                                                         <div class="type-lb">
                                                             <p class="new">Sale</p>
                                                         </div>
-                                                        <img src="{{ $product->product_image->image_name }}" class="img-fluid" alt="Image">
+                                                        <img src="{{ url('/fresh/images/'.$image->image_name) }}" class="img-fluid" alt="Image">
                                                         <div class="mask-icon">
                                                             <ul>
-                                                                <li><a href="/products/{{ $product->id }}" data-toggle="tooltip" data-placement="right" title="View"><i class="fas fa-eye"></i></a></li>
+                                                                <li><a href="/products/{{ $image->product->id }}" data-toggle="tooltip" data-placement="right" title="View"><i class="fas fa-eye"></i></a></li>
                                                                 <li><a href="#" data-toggle="tooltip" data-placement="right" title="Compare"><i class="fas fa-sync-alt"></i></a></li>
                                                                 <li><a href="#" data-toggle="tooltip" data-placement="right" title="Add to Wishlist"><i class="far fa-heart"></i></a></li>
                                                             </ul>
@@ -92,9 +92,9 @@
                                             </div>
                                             <div class="col-sm-6 col-md-6 col-lg-8 col-xl-8">
                                                 <div class="why-text full-width">
-                                                    <h4>{{ $product->product_name }}</h4>
-                                                    <h5> <del>Rp 100000</del>Rp. {{ $product->price }}/kg</h5>
-                                                    <p>{{ $product->description }}</p>
+                                                    <h4>{{ $image->product->product_name }}</h4>
+                                                    <h5> <del>Rp 100000</del>Rp. {{ $image->product->price }}/kg</h5>
+                                                    <p>{{ $image->product->description }}</p>
                                                     <a class="btn hvr-hover" href="#">Add to Cart</a>
                                                 </div>
                                             </div>

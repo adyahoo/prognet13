@@ -8,7 +8,7 @@
                     </div>
                     <div class="our-link">
                         <ul>
-                            <li><a href="{{ url('/dashboard') }}"><i class="fa fa-user s_color"></i> Akun Saya</a></li>
+                            <li><a href="/dashboardUser"><i class="fa fa-user s_color"></i> Akun Saya</a></li>
                             <li><a href="#"><i class="fas fa-location-arrow"></i> Lokasi Kami</a></li>
                             <li><a href="#"><i class="fas fa-headset"></i> Contact Us</a></li>
                         </ul>
@@ -16,10 +16,10 @@
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 					<div class="login-box">
-                        <a class="btn hvr-hover" href="/loginn">Sign In</a>
+                        <a class="btn hvr-hover" href="/userLogin">Sign In</a>
                     </div>
                     <div class="login-box">
-                        <a class="btn hvr-hover" href="/register">Register Here</a>
+                        <a class="btn hvr-hover" href="/userRegister">Register Here</a>
 					</div>
                     <div class="text-slid-box">
                         <div id="offer-box" class="carouselTicker">

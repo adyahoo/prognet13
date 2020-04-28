@@ -61,7 +61,7 @@
             <div class="bg-white py-2 collapse-inner rounded">
               <h6 class="collapse-header">Kelola Admin:</h6>
               <a class="collapse-item " href="{{ url('/dataadmin') }}">List Admin</a>
-              <a class="collapse-item" href="{{ url('/buatadmin') }}">Create Admin</a>
+              <a class="collapse-item" href="/adminRegister">Create Admin</a>
             </div>
           </div>
         </li>
@@ -381,7 +381,7 @@
         <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="login.html">Logout</a>
+          <a class="btn btn-primary" href="/adminLogout">Logout</a>
         </div>
       </div>
     </div>

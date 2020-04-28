@@ -42,7 +42,7 @@ class CategoriesController extends Controller
         
         Category::create($request->all());
 
-        return redirect('/buatcategory')->with('status', 'Data Category Berhasil Ditambahkan!');
+        return redirect('/listcategory')->with('status', 'Data Category Berhasil Ditambahkan!');
     }
 
     /**

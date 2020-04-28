@@ -71,7 +71,7 @@
 							Home
 						</a>
 						<a>|</a>
-						<a class="txt2" href="/register">
+						<a class="txt2" href="/userRegister">
 							Create your Account
 							<i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
 						</a>

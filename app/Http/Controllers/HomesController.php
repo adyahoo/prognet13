@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Product;
+use App\Product_Image;
 use Illuminate\Http\Request;
 
 class HomesController extends Controller
@@ -14,8 +15,10 @@ class HomesController extends Controller
      */
     public function index()
     {
-        $products = Product::paginate(3);;
-        return view('index', compact('products'));
+        // $products = Product::get();
+        $all_images = Product_Image::with('Product')->get();
+        return view('index', compact('all_images'));
+        // echo $all_images;
     }
 
     /**

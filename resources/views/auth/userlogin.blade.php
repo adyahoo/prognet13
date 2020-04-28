@@ -36,7 +36,7 @@
 		<div class="container-login100">
 			<div class="wrap-login100">
 				<div class="login100-pic js-tilt" data-tilt>
-					<img src="{{asset('assets/images/lol.jpg')}}" alt="IMG">
+					<img src="{{asset('logsig/images/img-01.png')}}" alt="IMG">
 				</div>
 
 				<form class="login100-form validate-form" method="POST" action="/userLogin">
@@ -77,6 +77,9 @@
 					</div>
 
 					<div class="text-center p-t-136">
+						<a class="txt2" href="/">
+							Home |
+						</a>
 						<a class="txt2" href="/userRegister">
 							Create your Account
 							<i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>

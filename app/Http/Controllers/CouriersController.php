@@ -42,7 +42,7 @@ class CouriersController extends Controller
         
         Courier::create($request->all());
 
-        return redirect('/buatcourier')->with('status', 'Data Courier Berhasil Ditambahkan!');
+        return redirect('/listcourier')->with('status', 'Data Courier Berhasil Ditambahkan!');
     }
 
     /**

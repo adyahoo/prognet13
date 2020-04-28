@@ -85,7 +85,6 @@ return [
             'driver' => 'eloquent',
             'model' => App\Admin::class,
         ],
->>>>>>> master
     ],
 
     /*
