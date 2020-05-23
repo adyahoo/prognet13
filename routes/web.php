@@ -17,8 +17,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', 'HomesController@index');
 Route::get('/products', 'ProductsController@index');
 Route::get('/products/{product}', 'ProductsController@show');
-Route::get('/datauser', 'UsersController@index');
-Route::get('/dataadmin', 'AdminsController@index');
+// Route::get('/datauser', 'UsersController@index');
+// Route::get('/dataadmin', 'AdminsController@index');
 
 Route::get('/listproduct', 'ListProductsController@index');
 Route::get('/listproduct/{product}/edit', 'ListProductsController@edit');
@@ -131,3 +131,8 @@ Route::get('/userRegister', function(){
 // });
 Route::get('/userLogout','UserController@logoutUser');
 Route::get('/userHome', 'UserController@index')->middleware('admin:user');
+
+//route rating
+Route::get('/rating/{product}','ReviewController@index');
+Route::get('/ratingForm','ReviewController@show');
+Route::resource('postRating','ReviewController');

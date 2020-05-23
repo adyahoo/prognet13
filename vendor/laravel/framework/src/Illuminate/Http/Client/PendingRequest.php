@@ -246,7 +246,9 @@ class PendingRequest
     public function withBasicAuth(string $username, string $password)
     {
         return tap($this, function ($request) use ($username, $password) {
-            return $this->options['auth'] = [$username, $password];
+            return $this->options = array_merge_recursive($this->options, [
+                'auth' => [$username, $password],
+            ]);
         });
     }
 
@@ -260,7 +262,9 @@ class PendingRequest
     public function withDigestAuth($username, $password)
     {
         return tap($this, function ($request) use ($username, $password) {
-            return $this->options['auth'] = [$username, $password, 'digest'];
+            return $this->options = array_merge_recursive($this->options, [
+                'auth' => [$username, $password, 'digest'],
+            ]);
         });
     }
 
@@ -273,9 +277,9 @@ class PendingRequest
      */
     public function withToken($token, $type = 'Bearer')
     {
-        return tap($this, function ($request) use ($token, $type) {
-            return $this->options['headers']['Authorization'] = trim($type.' '.$token);
-        });
+        return $this->withHeaders([
+            'Authorization' => trim($type.' '.$token),
+        ]);
     }
 
     /**
@@ -302,7 +306,9 @@ class PendingRequest
     public function withoutRedirecting()
     {
         return tap($this, function ($request) {
-            return $this->options['allow_redirects'] = false;
+            return $this->options = array_merge_recursive($this->options, [
+                'allow_redirects' => false,
+            ]);
         });
     }
 
@@ -314,7 +320,9 @@ class PendingRequest
     public function withoutVerifying()
     {
         return tap($this, function ($request) {
-            return $this->options['verify'] = false;
+            return $this->options = array_merge_recursive($this->options, [
+                'verify' => false,
+            ]);
         });
     }
 
@@ -376,10 +384,10 @@ class PendingRequest
      * Issue a GET request to the given URL.
      *
      * @param  string  $url
-     * @param  array|string|null  $query
+     * @param  array  $query
      * @return \Illuminate\Http\Client\Response
      */
-    public function get(string $url, $query = null)
+    public function get(string $url, array $query = [])
     {
         return $this->send('GET', $url, [
             'query' => $query,
@@ -468,6 +476,7 @@ class PendingRequest
             try {
                 return tap(new Response($this->buildClient()->request($method, $url, $this->mergeOptions([
                     'laravel_data' => $options[$this->bodyFormat] ?? [],
+                    'query' => $this->parseQueryParams($url),
                     'on_stats' => function ($transferStats) {
                         $this->transferStats = $transferStats;
                     },
@@ -601,6 +610,19 @@ class PendingRequest
     public function mergeOptions(...$options)
     {
         return array_merge_recursive($this->options, ...$options);
+    }
+
+    /**
+     * Parse the query parameters in the given URL.
+     *
+     * @param  string  $url
+     * @return array
+     */
+    public function parseQueryParams(string $url)
+    {
+        return tap([], function (&$query) use ($url) {
+            parse_str(parse_url($url, PHP_URL_QUERY), $query);
+        });
     }
 
     /**

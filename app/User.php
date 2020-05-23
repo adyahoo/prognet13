@@ -24,4 +24,8 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function review(){
+        return $this->hasOne(Product_Review::class);
+    }
 }

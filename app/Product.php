@@ -11,16 +11,22 @@ class Product extends Model
     
     public function product_image()
     {
-    	return $this->belongsTo('App\Product_Image');
+    	return $this->hasMany('App\Product_Image');
     }
 
     public function product_review()
     {
-    	return $this->hasOne('App\Product_Review');
+    	return $this->hasMany('App\Product_Review');
     }
     
     public function category_detail()
     {
     	return $this->hasOne('App\Category_Detail');
+    }
+
+    public function getStar(){
+        $sumStar = $this->product_review()->sum('rating');
+        $average = $sumStar/$this->product_review()->count();
+        return $average;
     }
 }

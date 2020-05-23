@@ -2,10 +2,6 @@
 
 All notable changes to `ignition` will be documented in this file
 
-## 2.0.1 - 2020-03-18
-
-- fix execute solution route not defined (#265)
-
 ## 2.0.0 - 2020-02-02
 
 - adds support for Laravel 7

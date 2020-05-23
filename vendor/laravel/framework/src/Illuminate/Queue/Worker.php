@@ -474,13 +474,7 @@ class Worker
             return;
         }
 
-        if (! $this->cache->get('job-exceptions:'.$uuid)) {
-            $this->cache->put('job-exceptions:'.$uuid, 0, Carbon::now()->addDay());
-        }
-
         if ($maxExceptions <= $this->cache->increment('job-exceptions:'.$uuid)) {
-            $this->cache->forget('job-exceptions:'.$uuid);
-
             $this->failJob($job, $e);
         }
     }

@@ -10,6 +10,7 @@ use Mockery\Exception\NoMatchingExpectationException;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
+use Symfony\Component\Console\Output\Output;
 
 class PendingCommand
 {
@@ -73,10 +74,10 @@ class PendingCommand
     }
 
     /**
-     * Specify an expected question that will be asked when the command runs.
+     * Specify a question that should be asked when the command runs.
      *
      * @param  string  $question
-     * @param  string|bool  $answer
+     * @param  string  $answer
      * @return $this
      */
     public function expectsQuestion($question, $answer)
@@ -84,18 +85,6 @@ class PendingCommand
         $this->test->expectedQuestions[] = [$question, $answer];
 
         return $this;
-    }
-
-    /**
-     * Specify an expected confirmation question that will be asked when the command runs.
-     *
-     * @param  string  $question
-     * @param  string  $answer
-     * @return $this
-     */
-    public function expectsConfirmation($question, $answer = 'no')
-    {
-        return $this->expectsQuestion($question, strtolower($answer) === 'yes');
     }
 
     /**

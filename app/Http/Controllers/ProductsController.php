@@ -49,7 +49,8 @@ class ProductsController extends Controller
      */
     public function show(Product $product)
     {
-        // return $product;
+        $product = Product::with('Product_Image')->get();
+        // echo $product;
         return view('products.shopdetail', compact('product'));
     }
 

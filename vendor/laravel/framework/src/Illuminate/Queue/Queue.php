@@ -88,7 +88,7 @@ abstract class Queue
     protected function createPayload($job, $queue, $data = '')
     {
         if ($job instanceof Closure) {
-            $job = CallQueuedClosure::create($job);
+            $job = new CallQueuedClosure(new SerializableClosure($job));
         }
 
         $payload = json_encode($this->createPayloadArray($job, $queue, $data));

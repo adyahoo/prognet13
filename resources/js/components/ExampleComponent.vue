@@ -1,23 +1,24 @@
 <template>
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">Example Component</div>
-
-                    <div class="card-body">
-                        I'm an example component.
-                    </div>
-                </div>
+    <div>
+        <form @submit.prevent="postReview">
+            <legend>Rate Product</legend>
+            <div class="form-group">
+              <label>Rate</label>
+              <star-rating v-model="formData.rating"></star-rating>
             </div>
-        </div>
+            <div class="form-group">
+              <label>Comment</label>
+              <input type="text" v-model="formData.content" placeholder="Give Us Review" class="form-control">
+            </div>
+            <div class="form-group">
+              <input type="submit" name="submit">
+            </div>
+        </form>
     </div>
 </template>
 
 <script>
     export default {
-        mounted() {
-            console.log('Component mounted.')
-        }
+
     }
 </script>

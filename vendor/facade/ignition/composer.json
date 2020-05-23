@@ -28,7 +28,7 @@
         "orchestra/testbench": "5.0"
     },
     "suggest": {
-        "laravel/telescope": "^3.1"
+        "laravel/telescope": "^2.0"
     },
     "config": {
         "sort-packages": true

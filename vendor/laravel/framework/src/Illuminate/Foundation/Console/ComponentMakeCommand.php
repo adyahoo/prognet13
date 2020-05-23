@@ -53,13 +53,9 @@ class ComponentMakeCommand extends GeneratorCommand
      */
     protected function writeView()
     {
-        $view = collect(explode('/', $this->argument('name')))
-            ->map(function ($part) {
-                return Str::kebab($part);
-            })
-            ->implode('.');
+        $view = 'components.'.Str::kebab(class_basename($this->argument('name')));
 
-        $path = resource_path('views').'/'.str_replace('.', '/', 'components.'.$view);
+        $path = resource_path('views').'/'.str_replace('.', '/', $view);
 
         if (! $this->files->isDirectory(dirname($path))) {
             $this->files->makeDirectory(dirname($path), 0777, true, true);
