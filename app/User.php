@@ -29,4 +29,8 @@ class User extends Authenticatable
     {
     	return $this->belongTo('App\Transaction');
     }
+
+    public function review(){
+        return $this->hasOne(Product_Review::class);
+    }
 }

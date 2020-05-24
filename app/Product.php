@@ -9,12 +9,12 @@ class Product extends Model
     protected $fillable = ['product_name', 'price', 'description', 'stock', 'weight'];
     public function product_image()
     {
-    	return $this->hasOne('App\Product_Image');
+    	return $this->hasMany('App\Product_Image');
     }
 
     public function product_review()
     {
-    	return $this->hasOne('App\Product_Review');
+    	return $this->hasMany('App\Product_Review');
     }
     
     public function category_detail()
@@ -37,5 +37,9 @@ class Product extends Model
         return asset('fresh/images/'.$this->product_image->image_name);
     }
 
-
+    public function getStar(){
+        $sumStar = $this->product_review()->sum('rating');
+        $average = $sumStar/$this->product_review()->count();
+        return $average;
+    }
 }

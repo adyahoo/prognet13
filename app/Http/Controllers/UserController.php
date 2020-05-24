@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Hash;
 use Illuminate\Http\Request;
 use App\User;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
@@ -19,8 +20,13 @@ class UserController extends Controller
     	if($dataUser!=null){
     		if(Hash::check($request->password,$dataUser->password)){
     			//password dan username yg diinput dan di db sesuai
-    			Auth::guard('user')->LoginUsingId($dataUser->id);//auth guard untuk nentuin role yg login sbg apa
-    			return redirect('/profiluser');
+                //fiqr
+    			// Auth::guard('user')->LoginUsingId($dataUser->id);//auth guard untuk nentuin role yg login sbg apa
+    			// return redirect('/profiluser');
+
+    			Auth::guard('user')->LoginUsingId($dataUser->id) ;//auth guard untuk nentuin role yg login sbg apa
+                // $userName = Auth::guard('user')->user()->id;
+    			return redirect('/dashboardUser');
     			// echo "login user sukses";
     		}else{
     			return redirect('/userLogin')->with('alert',"email atau password salah");
@@ -34,6 +40,8 @@ class UserController extends Controller
 
     public function logoutUser(){
     	if(Auth::guard('user')->check()){
+            // $userid = Auth::guard('user')->user()->name;
+            // echo $userid;
     		Auth::guard('user')->logout();
     	}
     	return redirect('/');

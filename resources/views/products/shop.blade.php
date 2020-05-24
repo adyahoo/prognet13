@@ -50,6 +50,12 @@
                                                         <img src="{{ url('/fresh/images/'.$image->image_name) }}" class="img-fluid" alt="Image">
                                                         <div class="mask-icon">
                                                         <a class="cart" href="/products/{{ $image->product->id }}">View Product</a>
+                                                            <ul>
+                                                                <li><a href="/rating/{{ $image->product->id }}" data-toggle="tooltip" data-placement="right" title="Views"><i class="fas fa-eye"></i></a></li>
+                                                                <li><a href="#" data-toggle="tooltip" data-placement="right" title="Compare"><i class="fas fa-sync-alt"></i></a></li>
+                                                                <li><a href="#" data-toggle="tooltip" data-placement="right" title="Add to Wishlist"><i class="far fa-heart"></i></a></li>
+                                                            </ul>
+                                                            <a class="cart" href="#">Add to Cart</a>
                                                         </div>
                                                     </div>
                                                     <div class="why-text">

@@ -52,8 +52,13 @@ class ProductsController extends Controller
      */
     public function show($id)
     {
-        $product = \App\Product::find($id);
-        return view('products.shopdetail', ['product' => $product]);
+        //fiqr
+        // $product = \App\Product::find($id);
+        // return view('products.shopdetail', ['product' => $product]);
+
+        $product = Product::with('Product_Image')->get();
+        // echo $product;
+        return view('products.shopdetail', compact('product'));
     }
 
     /**
