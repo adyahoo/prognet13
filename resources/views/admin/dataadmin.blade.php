@@ -9,7 +9,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-<title>PINJAM PC</title>
+<title>Data Admin</title>
 
   <!-- Custom fonts for this template-->
   <link href="{{asset('akun/vendor/fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">
@@ -327,12 +327,12 @@
         <div class="container-fluid">
 
           <!-- Page Heading -->
-          <h1 class="h3 mb-2 text-gray-800">Data PC</h1>
+          <h1 class="h3 mb-2 text-gray-800">Data Admin</h1>
 
           <!-- DataTales Example -->
           <div class="card shadow mb-4">
             <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">Data Peminjam</h6>
+              <h6 class="m-0 font-weight-bold text-primary">Data Admin</h6>
             </div>
             <div class="card-body">
             <!-- dari sini -->

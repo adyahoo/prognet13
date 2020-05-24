@@ -10,9 +10,9 @@
                 <div class="col-xl-5 col-lg-5 col-md-6">
                     <div id="carousel-example-1" class="single-product-slider carousel slide" data-ride="carousel">
                         <div class="carousel-inner" role="listbox">
-                            <div class="carousel-item active"> <img class="d-block w-100" src="{{ $product->product_image->image_name }}" alt="First slide"> </div>
-                            <div class="carousel-item"> <img class="d-block w-100" src="fresh/images/big-img-02.jpg" alt="Second slide"> </div>
-                            <div class="carousel-item"> <img class="d-block w-100" src="fresh/images/big-img-03.jpg" alt="Third slide"> </div>
+                            <div class="carousel-item active"> <img class="d-block w-100" src="{{$product->getImage()}}" alt="First slide"> </div>
+                            <!-- <div class="carousel-item"> <img class="d-block w-100" src="fresh/images/big-img-02.jpg" alt="Second slide"> </div>
+                            <div class="carousel-item"> <img class="d-block w-100" src="fresh/images/big-img-03.jpg" alt="Third slide"> </div> -->
                         </div>
                         <a class="carousel-control-prev" href="#carousel-example-1" role="button" data-slide="prev"> 
 						<i class="fa fa-angle-left" aria-hidden="true"></i>
@@ -24,7 +24,7 @@
 					</a>
                         <ol class="carousel-indicators">
                             <li data-target="#carousel-example-1" data-slide-to="0" class="active">
-                                <img class="d-block w-100 img-fluid" src="{{ $product->product_image->image_name }}" alt="" />
+                                <img class="d-block w-100 img-fluid" src="{{$product->getImage()}}" alt="" />
                             </li>
                             <li data-target="#carousel-example-1" data-slide-to="1">
                                 <img class="d-block w-100 img-fluid" src="fresh/images/smp-img-02.jpg" alt="" />
@@ -42,26 +42,113 @@
                         <p class="available-stock"><span> More than {{ $product->stock }} available / <a href="#">8 sold </a></span><p>
 						<h4>Short Description:</h4>
 						<p>{{ $product->description }} </p>
-						<ul>
-							<li>
-								<div class="form-group quantity-box">
-									<label class="control-label">Quantity</label>
-									<input class="form-control" value="0" min="0" max="20" type="number">
-								</div>
-							</li>
-						</ul>
+						
 
 						<div class="price-box-bar">
 							<div class="cart-and-bay-btn">
-								<a class="btn hvr-hover" data-fancybox-close="" href="#">Buy New</a>
-								<a class="btn hvr-hover" data-fancybox-close="" href="#">Add to cart</a>
+                                <a class="btn hvr-hover" data-toggle="modal" data-target="#exampleModal" data-fancybox-close="" href="#">Buy</a>
+                                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Buy Product</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                        <form method="POST" action="/products/{{$product->id}}" enctype="multipart/form-data">
+                                        @csrf
+                                            <input type="hidden" id="id_product" name="id_product" value="{{ $product->id}}"> 
+                                            <input type="hidden" id="price" name="price" value="{{ $product->price}}"> 
+                                        <div class="col">
+                                            <label for="address">Address</label>
+                                            <input type="text" class="form-control @error('address') is-invalid @enderror" id="address" placeholder="Ex: Jl. Kampus Unud No.1" name="address">
+                                            @error('address')<div class="invalid-feedback"> {{ $message }}</div> @enderror
+                                        </div>
+                                        <div class="col">
+                                            <label for="regency">Regency</label>
+                                            <input type="text" class="form-control" id="regency" placeholder="Ex: Kuta Selatan" name="regency">
+                                        </div>
+                                        <div class="col">
+                                            <label for="province">Province</label>
+                                            <input type="text" class="form-control @error('province') is-invalid @enderror" id="province" placeholder="Ex: Bali" name="province">
+                                            @error('province')<div class="invalid-feedback"> {{ $message }}</div> @enderror
+                                        </div>
+                                        
+                                        <div class="col">
+                                            <div class="form-group">
+                                            <label for="courier">Courier</label>
+                                                <select class="form-control @error('courier') is-invalid @enderror" id="courier" placeholder="Nothing " name="courier">
+                                                    @foreach($courier as $courier)
+                                                    <option value="{{ $courier->id}}">{{ $courier->courier }}</option>
+                                                    @endforeach
+                                                    @error('courier')<div class="invalid-feedback"> {{ $message }}</div> @enderror
+                                                </select>	
+                                             </div>
+                                        </div>
+                                        
+                                        <br>
+                                        <div class="col">
+                                        <ul>
+                                            <li>
+                                                <div class="form-group quantity-box">
+                                                    <label class="control-label">Quantity</label>
+                                                    <input class="form-control" id="qty" name="qty" value="0" min="0" max="20" type="number">
+                                                
+                                                </div>
+                                            </li>
+                                        </ul>
+                                        </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="submit" class="btn btn-success">Buy</button>
+                                            </form>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+								<a class="btn hvr-hover" data-toggle="modal" data-target="#exampleModal1" data-fancybox-close="" href="#">Add to cart</a>
+                                <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Add to Cart</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                        <form method="POST" action="/products/{{$product->id}}/cart" enctype="multipart/form-data">
+                                        @csrf
+                                        <br>
+                                        <input type="hidden" id="id_product" name="id_product" value="{{ $product->id}}">
+                                        <div class="col">
+                                        <ul>
+                                            <li>
+                                                <div class="form-group quantity-box">
+                                                    <label class="control-label">Quantity</label>
+                                                    <input class="form-control" id="qty" name="qty" value="0" min="0" max="20" type="number">
+                                                
+                                                </div>
+                                            </li>
+                                        </ul>
+                                        </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="submit" class="btn btn-success">Add to Cart</button>
+                                            </form>
+                                        </div>
+                                        </div>
+                                    </div>
+                                    </div>
 							</div>
 						</div>
 
 						<div class="add-to-btn">
 							<div class="add-comp">
 								<a class="btn hvr-hover" href="#"><i class="fas fa-heart"></i> Add to wishlist</a>
-								<a class="btn hvr-hover" href="#"><i class="fas fa-sync-alt"></i> Add to Compare</a>
 							</div>
 							<div class="share-bar">
 								<a class="btn hvr-hover" href="#"><i class="fab fa-facebook" aria-hidden="true"></i></a>
@@ -262,7 +349,5 @@
                 </div>
             </div>
 
-        </div>
-    </div>
-
+ </div>
 @endsection

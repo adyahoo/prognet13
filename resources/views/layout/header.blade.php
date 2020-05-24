@@ -20,7 +20,7 @@
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">SHOP</a>
                             <ul class="dropdown-menu">
 								<li><a href="{{ url('/products') }}">Products Shop</a></li>
-                                <li><a href="{{ url('/cart') }}">Cart</a></li>
+                                <li><a href="{{ url('/cartuser') }}">Cart</a></li>
                                 <li><a href="{{ url('/checkout') }}">Checkout</a></li>
                                 <li><a href="{{ url('/myaccount') }}">My Account</a></li>
                                 <li><a href="{{ url('/wishlist') }}">Wishlist</a></li>

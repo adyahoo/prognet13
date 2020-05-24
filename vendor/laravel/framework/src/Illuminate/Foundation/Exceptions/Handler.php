@@ -388,7 +388,7 @@ class Handler implements ExceptionHandlerContract
     {
         $renderer = new HtmlErrorRenderer($debug);
 
-        return $renderer->render($e)->getAsString();
+        return $renderer->getBody($renderer->render($e));
     }
 
     /**

@@ -20,14 +20,16 @@ class UserController extends Controller
     		if(Hash::check($request->password,$dataUser->password)){
     			//password dan username yg diinput dan di db sesuai
     			Auth::guard('user')->LoginUsingId($dataUser->id);//auth guard untuk nentuin role yg login sbg apa
-    			return redirect('/dashboardUser');
+    			return redirect('/profiluser');
     			// echo "login user sukses";
     		}else{
     			return redirect('/userLogin')->with('alert',"email atau password salah");
     		}
     	}else{
     		return redirect('/userLogin')->with('alert',"Ulang login");
-    	}
+		}
+		$userid = Auth::guard('user')->user()->id;
+		$userName = Auth::guard('user')->user()->name;
     }
 
     public function logoutUser(){
@@ -35,6 +37,11 @@ class UserController extends Controller
     		Auth::guard('user')->logout();
     	}
     	return redirect('/');
+	}
+
+	public function TampilUser(){
+		$userName = Auth::guard('user')->user()->name;
+        return view('user.profiluser',compact('userName'));
     }
 
     public function registerUser(Request $request){

@@ -16,8 +16,8 @@ class HomesController extends Controller
     public function index()
     {
         // $products = Product::get();
-        $all_images = Product_Image::with('Product')->get();
-        return view('index', compact('all_images'));
+        $products = Product::paginate(3);;
+        return view('index', compact('products'));
         // echo $all_images;
     }
 
@@ -28,7 +28,8 @@ class HomesController extends Controller
      */
     public function create()
     {
-        //
+        $products = Product::paginate(3);;
+        return view('index', compact('products'));
     }
 
     /**

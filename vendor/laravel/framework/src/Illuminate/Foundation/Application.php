@@ -33,7 +33,7 @@ class Application extends Container implements ApplicationContract, CachesConfig
      *
      * @var string
      */
-    const VERSION = '7.2.2';
+    const VERSION = '7.0.8';
 
     /**
      * The base path for the Laravel installation.
@@ -146,13 +146,6 @@ class Application extends Container implements ApplicationContract, CachesConfig
      * @var string
      */
     protected $namespace;
-
-    /**
-     * The prefixes of absolute cache paths for use during normalization.
-     *
-     * @var array
-     */
-    protected $absoluteCachePathPrefixes = [DIRECTORY_SEPARATOR];
 
     /**
      * Create a new Illuminate application instance.
@@ -1017,22 +1010,9 @@ class Application extends Container implements ApplicationContract, CachesConfig
             return $this->bootstrapPath($default);
         }
 
-        return Str::startsWith($env, $this->absoluteCachePathPrefixes)
+        return Str::startsWith($env, '/')
                 ? $env
                 : $this->basePath($env);
-    }
-
-    /**
-     * Add new prefix to list of absolute path prefixes.
-     *
-     * @param  string  $prefix
-     * @return $this
-     */
-    public function addAbsoluteCachePathPrefix($prefix)
-    {
-        $this->absoluteCachePathPrefixes[] = $prefix;
-
-        return $this;
     }
 
     /**

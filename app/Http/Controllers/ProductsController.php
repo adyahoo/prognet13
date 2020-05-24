@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Product;
+use App\Courier;
 use App\Product_Image;
 use Illuminate\Http\Request;
 
@@ -25,9 +26,11 @@ class ProductsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Product $product)
     {
-        //
+        // return $product;
+        $couriers = Courier::all();
+        return view('products.shopdetail', compact('product', 'couriers'));
     }
 
     /**
@@ -47,10 +50,10 @@ class ProductsController extends Controller
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function show(Product $product)
+    public function show($id)
     {
-        // return $product;
-        return view('products.shopdetail', compact('product'));
+        $product = \App\Product::find($id);
+        return view('products.shopdetail', ['product' => $product]);
     }
 
     /**

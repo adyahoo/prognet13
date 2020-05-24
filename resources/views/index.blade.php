@@ -48,6 +48,23 @@
         </div>
     </div>
     <!-- End Slider -->
+
+    <!-- Start Categories  -->
+    <div class="categories-shop">
+        <div class="container">
+            <div class="row">
+                @foreach($products as $product)
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                        <div class="shop-cat-box">
+                            <img class="img-fluid" src="/fresh/images/{{ $product->product_image->image_name }}" alt="" />
+                            <a class="btn hvr-hover" href="/products/{{ $product->id }}">{{ $product->product_name }}</a>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    </div>
+    <!-- End Categories -->
 	
 	<div class="box-add-products">
 		<div class="container">
@@ -90,43 +107,38 @@
             </div>
 
             <div class="row special-list">
-                <div class="col-lg-3 col-md-6 special-grid top-featured">
-                        <div class="products-single fix">
-                            <div class="box-img-hover">
-                                <div class="type-lb">
-                                    <p class="sale">Sale</p>
-                                </div>
-                                @foreach($all_images as $image)
-                                <img src="{{ url('/fresh/images/'.$image->image_name) }}" class="img-fluid" alt="Image" width="500px">
+            <div class="col-lg-3 col-md-6 special-grid top-featured">
+                    <div class="products-single fix">
+                        <div class="box-img-hover">
+                            <div class="type-lb">
+                                <p class="sale">Sale</p>
                             </div>
-                            <div class="why-text">
-                                <h4>{{ $image->product->product_name }}</h4>
-                                <h5>Rp. {{ $image->product->price }}/kg</h5>
+                            <img src="/fresh/images/{{ $product->product_image->image_name }}" class="img-fluid" alt="Image">
+                            <div class="mask-icon">
+                                <a class="cart" href="/products/{{ $product->id }}">View Product</a>
                             </div>
                         </div>
+                        <div class="why-text">
+                            <h4>{{ $product->product_name }}</h4>
+                            <h5>Rp. {{ $product->price }}/kg</h5>
+                        </div>
+                    </div>
                 </div>
-            </div>
-                @endforeach
-            @foreach($all_images as $image)
+            @foreach($products as $product)
                 <div class="col-lg-3 col-md-6 special-grid best-seller">
                     <div class="products-single fix">
                         <div class="box-img-hover">
                             <div class="type-lb">
                                 <p class="sale">Sale</p>
                             </div>
-                            <img src="{{ url('/fresh/images/'.$image->image_name) }}" class="img-fluid" alt="Image">
+                            <img src="/fresh/images/{{ $product->product_image->image_name }}" class="img-fluid" alt="Image">
                             <div class="mask-icon">
-                                <ul>
-                                    <li><a href="/products/{{ $image->product->id }}" data-toggle="tooltip" data-placement="right" title="View"><i class="fas fa-eye"></i></a></li>
-                                    <li><a href="#" data-toggle="tooltip" data-placement="right" title="Compare"><i class="fas fa-sync-alt"></i></a></li>
-                                    <li><a href="#" data-toggle="tooltip" data-placement="right" title="Add to Wishlist"><i class="far fa-heart"></i></a></li>
-                                </ul>
-                                <a class="cart" href="#">Add to Cart</a>
+                                <a class="cart" href="/products/{{ $product->id }}">View Product</a>
                             </div>
                         </div>
                         <div class="why-text">
-                            <h4>{{ $image->product->product_name }}</h4>
-                            <h5>Rp. {{ $image->product->price }}/kg</h5>
+                            <h4>{{ $product->product_name }}</h4>
+                            <h5>Rp. {{ $product->price }}/kg</h5>
                         </div>
                     </div>
                 </div>

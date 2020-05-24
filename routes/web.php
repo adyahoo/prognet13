@@ -15,8 +15,10 @@ use Illuminate\Support\Facades\Route;
 
 // <<<<<<< HEAD
 Route::get('/', 'HomesController@index');
-Route::get('/products', 'ProductsController@index');
-Route::get('/products/{product}', 'ProductsController@show');
+Route::get('/products', 'TransactionsController@index');
+Route::get('/products/{id}', 'TransactionsController@create');
+Route::post('/products/{id}', 'TransactionsController@store');
+Route::post('/products/{id}/cart', 'CartsController@store');
 Route::get('/datauser', 'UsersController@index');
 Route::get('/dataadmin', 'AdminsController@index');
 
@@ -41,12 +43,22 @@ Route::delete('/listcourier/{courier}', 'CouriersController@destroy');
 Route::get('/buatcourier', 'CouriersController@create');
 Route::POST('/buatcourier', 'CouriersController@store');
 
+Route::get('/profiluser', function () {
+    return view('user.profiluser');
+})->middleware('admin:user');
 Route::get('/dashboard', function(){
     return view('account.dashboard');
 })->middleware('admin:admin');
 Route::get('/dashboardUser', function(){
     return view('account.dashboardUser');
 })->middleware('admin:user');
+
+
+Route::get('/profiluser', 'UserController@TampilUser');
+Route::get('/pesananuser', 'TransactionsController@pesananUser');
+Route::get('/cartuser', 'CartsController@create');
+Route::post('/cartuser/beli', 'CartsController@carttrans');
+Route::post('/pesananuser/konfirmasi', 'TransactionsController@updateKonf');
 
 // Route::get('/register', function () {
 //     return view('register');

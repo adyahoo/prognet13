@@ -12,7 +12,7 @@ class StubPublishCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'stub:publish {--force : Overwrite any existing files}';
+    protected $signature = 'stub:publish';
 
     /**
      * The console command description.
@@ -37,7 +37,6 @@ class StubPublishCommand extends Command
             __DIR__.'/stubs/job.stub' => $stubsPath.'/job.stub',
             __DIR__.'/stubs/model.pivot.stub' => $stubsPath.'/model.pivot.stub',
             __DIR__.'/stubs/model.stub' => $stubsPath.'/model.stub',
-            __DIR__.'/stubs/request.stub' => $stubsPath.'/request.stub',
             __DIR__.'/stubs/test.stub' => $stubsPath.'/test.stub',
             __DIR__.'/stubs/test.unit.stub' => $stubsPath.'/test.unit.stub',
             realpath(__DIR__.'/../../Database/Migrations/stubs/migration.create.stub') => $stubsPath.'/migration.create.stub',
@@ -54,9 +53,7 @@ class StubPublishCommand extends Command
         ];
 
         foreach ($files as $from => $to) {
-            if (! file_exists($to) || $this->option('force')) {
-                file_put_contents($to, file_get_contents($from));
-            }
+            file_put_contents($to, file_get_contents($from));
         }
 
         $this->info('Stubs published successfully.');
