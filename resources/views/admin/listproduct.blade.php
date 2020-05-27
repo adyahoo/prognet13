@@ -365,12 +365,12 @@
                             <td>{{ $product->weight }}</td>
                             <td>
                             <center>
-                            <a href="/listproduct/{{ $product->id }}/edit" class="btn btn-primary">Edit</a>
-                            <form action="/listproduct/{{ $product->id }}" method="POST" class="d-inline">
-                              @method('delete')
-                              @csrf
-                              <button type="submit" class="btn btn-danger">Delete</button>
-                            </form>
+                              <a href="/listproduct/{{ $product->id }}/edit" class="btn btn-primary">Edit</a>
+                              <form action="/listproduct/{{ $product->id }}" method="POST" class="d-inline">
+                                @method('delete')
+                                @csrf
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                              </form>
                             </center>
                             
                             </td>

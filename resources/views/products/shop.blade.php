@@ -49,13 +49,13 @@
                                                         </div>
                                                         <img src="{{ url('/fresh/images/'.$image->image_name) }}" class="img-fluid" alt="Image">
                                                         <div class="mask-icon">
-                                                        <a class="cart" href="/products/{{ $image->product->id }}">View Product</a>
                                                             <ul>
-                                                                <li><a href="/rating/{{ $image->product->id }}" data-toggle="tooltip" data-placement="right" title="Views"><i class="fas fa-eye"></i></a></li>
+                                                                <li><a href="/products/{{ $image->product->id }}" data-toggle="tooltip" data-placement="right" title="Views"><i class="fas fa-eye"></i></a></li>
                                                                 <li><a href="#" data-toggle="tooltip" data-placement="right" title="Compare"><i class="fas fa-sync-alt"></i></a></li>
                                                                 <li><a href="#" data-toggle="tooltip" data-placement="right" title="Add to Wishlist"><i class="far fa-heart"></i></a></li>
                                                             </ul>
-                                                            <a class="cart" href="#">Add to Cart</a>
+                                                        <a class="cart" href="/products/{{ $image->product->id }}">View Product</a>
+                                                        <a class="cart" href="#" data-toggle="modal" data-target="#cartModal" data-fancybox-close="">Add to Cart</a>
                                                         </div>
                                                     </div>
                                                     <div class="why-text">
@@ -66,6 +66,41 @@
                                             </div>
                                         @endforeach
 
+                                    </div>
+                                </div>
+                                <div class="modal fade" id="cartModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">Add to Cart</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                   <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                @foreach($all_images as $image)
+                                                <form method="POST" action="/products/{{$image->product->id}}/cart" enctype="multipart/form-data">
+                                                    @csrf
+                                                    <br>
+                                                    <input type="hidden" id="id_product" name="id_product" value="{{$image->product->id}}">
+                                                @endforeach
+                                                    <div class="col">
+                                                    <ul>
+                                                        <li>
+                                                            <div class="form-group quantity-box">
+                                                                <label class="control-label">Quantity</label>
+                                                                <input class="form-control" id="qty" name="qty" placeholder="0" min="0" max="20" type="number">
+                                                            
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="submit" class="btn btn-success">Add to Cart</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div role="tabpanel" class="tab-pane fade" id="list-view">

@@ -275,7 +275,7 @@
                   <thead>
                     <tr>
                       <th>No</th>
-                      <th>Product Name</th>
+                      <th>Pesanan</th>
                       <th>Address</th>
                       <th>Total</th>
                       <th>Shipping Cost</th>
@@ -285,18 +285,22 @@
                     </tr>
                   </thead>
                   <tbody>
-                  @foreach($transaction_details as $trans)
+                  @foreach($transactions as $trans)
                       <tr>
                         <td>{{ $loop->iteration }}</td>
-                        <td></td`>
-                        <td>{{ $trans->transaction->address }}</td>
-                        <td>{{ $trans->transaction->total }}</td>
-                        <td>{{ $trans->transaction->shipping_cost }}</td>
-                        <td>{{ $trans->transaction->sub_total }}</td>
-                        <td>{{ $trans->transaction->status }}</td>
+                        <td>{{ $trans->created_at }}</td>
+                        <td>{{ $trans->address }}</td>
+                        <td>{{ $trans->total }}</td>
+                        <td>{{ $trans->shipping_cost }}</td>
+                        <td>{{ $trans->sub_total }}</td>
+                        <td>{{ $trans->status }}</td>
                         <td>
                         <center>
-                        <button type="submit" class="btn btn-danger">Delete</button>
+                          <form action="/pesananuser/{{ $trans->id }}" method="POST" class="d-inline">
+                              @method('delete')
+                              @csrf
+                              <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
                         </center>
                         
                         </td>
@@ -304,8 +308,8 @@
                     @endforeach
                   </tbody>
                 </table><br><br>
-                <button type="button" data-toggle="modal" data-target="#exampleModal" class="btn btn-primary">Konfirmasi Pembelian</button>
-                                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <button type="button" data-toggle="modal" data-target="#confirmModal" class="btn btn-primary">Konfirmasi Pembelian</button>
+                                    <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                       <div class="modal-dialog" role="document">
                                           <div class="modal-content">
                                           <div class="modal-header">
@@ -321,8 +325,10 @@
                                           <div class="col">
                                             <label for="id_transaksi">Pesanan</label>
                                                 <select class="form-control @error('id_transaksi') is-invalid @enderror" id="id_transaksi" placeholder="Nothing " name="id_transaksi">
-                                                    @foreach($transaction_details as $trans)
-                                                    <option value="{{ $trans->transaction->id }}">{{ $loop->iteration }}</option>
+                                                    @foreach($transactions as $trans)
+                                                      @if($trans->status == 'unverified')
+                                                       <option value="{{ $trans->id }}">{{ $trans->created_at}}</option>
+                                                      @endif
                                                     @endforeach
                                                     @error('id_transaksi')<div class="invalid-feedback"> {{ $message }}</div> @enderror
                                                 </select>	

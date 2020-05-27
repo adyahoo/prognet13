@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Product;
 use App\Courier;
+use App\Product_Review;
 use App\Product_Image;
 use Illuminate\Http\Request;
 
@@ -53,12 +54,15 @@ class ProductsController extends Controller
     public function show($id)
     {
         //fiqr
-        // $product = \App\Product::find($id);
+        $all_review = Product_Review::with('Product')->get();
+        $product = \App\Product::find($id);
+        echo $product;  
         // return view('products.shopdetail', ['product' => $product]);
+        // return view('products.shopdetail',compact('product','all_review'))
 
-        $product = Product::with('Product_Image')->get();
-        // echo $product;
-        return view('products.shopdetail', compact('product'));
+        // $product = Product::with('Product_Image')->get();
+        // // echo $product;
+        // return view('products.shopdetail', compact('product'));
     }
 
     /**

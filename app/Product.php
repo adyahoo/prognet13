@@ -34,7 +34,11 @@ class Product extends Model
 
     public function getImage()
     {
-        return asset('fresh/images/'.$this->product_image->image_name);
+        $images = $this->product_image;
+        foreach ($images as $image) {
+            $foto = $image->image_name;
+        }
+        return asset('fresh/images/'.$foto);
     }
 
     public function getStar(){

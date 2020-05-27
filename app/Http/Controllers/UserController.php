@@ -21,12 +21,12 @@ class UserController extends Controller
     		if(Hash::check($request->password,$dataUser->password)){
     			//password dan username yg diinput dan di db sesuai
                 //fiqr
-    			// Auth::guard('user')->LoginUsingId($dataUser->id);//auth guard untuk nentuin role yg login sbg apa
-    			// return redirect('/profiluser');
+    			Auth::guard('user')->LoginUsingId($dataUser->id);//auth guard untuk nentuin role yg login sbg apa
+    			return redirect('/profiluser');
 
-    			Auth::guard('user')->LoginUsingId($dataUser->id) ;//auth guard untuk nentuin role yg login sbg apa
-                // $userName = Auth::guard('user')->user()->id;
-    			return redirect('/dashboardUser');
+    			// Auth::guard('user')->LoginUsingId($dataUser->id) ;//auth guard untuk nentuin role yg login sbg apa
+       //          // $userName = Auth::guard('user')->user()->id;
+    			// return redirect('/dashboardUser');
     			// echo "login user sukses";
     		}else{
     			return redirect('/userLogin')->with('alert',"email atau password salah");
@@ -48,8 +48,12 @@ class UserController extends Controller
 	}
 
 	public function TampilUser(){
-		$userName = Auth::guard('user')->user()->name;
-        return view('user.profiluser',compact('userName'));
+        if(Auth::guard('user')->check()){
+    		$userName = Auth::guard('user')->user()->name;
+            return view('user.profiluser',compact('userName'));
+        }else{
+            return redirect('/userLogin');
+        }
     }
 
     public function registerUser(Request $request){

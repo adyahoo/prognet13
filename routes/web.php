@@ -21,8 +21,8 @@ Route::post('/products/{id}', 'TransactionsController@store');
 Route::post('/products/{id}/cart', 'CartsController@store');
 Route::get('/datauser', 'UsersController@index');
 Route::get('/dataadmin', 'AdminsController@index');
-Route::get('/products', 'ProductsController@index');
-Route::get('/products/{product}', 'ProductsController@show');
+// Route::get('/products', 'ProductsController@index');
+// Route::get('/products/{product}', 'ProductsController@show');
 // Route::get('/datauser', 'UsersController@index');
 // Route::get('/dataadmin', 'AdminsController@index');
 
@@ -47,22 +47,26 @@ Route::delete('/listcourier/{courier}', 'CouriersController@destroy');
 Route::get('/buatcourier', 'CouriersController@create');
 Route::POST('/buatcourier', 'CouriersController@store');
 
-Route::get('/profiluser', function () {
-    return view('user.profiluser');
-})->middleware('admin:user');
+// Route::get('/profiluser', function () {
+//     return view('user.profiluser');
+// })->middleware('admin:user');
 Route::get('/dashboard', function(){
     return view('account.dashboard');
 })->middleware('admin:admin');
-Route::get('/dashboardUser', function(){
-    return view('account.dashboardUser');
-})->middleware('admin:user');
+// Route::get('/dashboardUser', function(){
+//     return view('account.dashboardUser');
+// })->middleware('admin:user');
 
 
 Route::get('/profiluser', 'UserController@TampilUser');
 Route::get('/pesananuser', 'TransactionsController@pesananUser');
-Route::get('/cartuser', 'CartsController@create');
-Route::post('/cartuser/beli', 'CartsController@carttrans');
 Route::post('/pesananuser/konfirmasi', 'TransactionsController@updateKonf');
+Route::delete('/pesananuser/{transaction}', 'TransactionsController@destroy');
+Route::get('/cartuser', 'CartsController@create');
+Route::get('/cartuser/{cart}/edit', 'CartsController@edit');
+Route::post('/cartuser/{cart}', 'CartsController@update');
+Route::delete('/cartuser/{cart}', 'CartsController@destroy');
+Route::post('/cartuser', 'CartsController@transaction');
 
 // Route::get('/register', function () {
 //     return view('register');
@@ -152,3 +156,7 @@ Route::get('/userHome', 'UserController@index')->middleware('admin:user');
 Route::get('/rating/{product}','ReviewController@index');
 Route::get('/ratingForm','ReviewController@show');
 Route::resource('postRating','ReviewController');
+
+//route ongkir
+Route::get('/getCity/ajax/{id}','TransactionsController@getCityAjax');
+// Route::get('/ongkir','OngkirController@index');

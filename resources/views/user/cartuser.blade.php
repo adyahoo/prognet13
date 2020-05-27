@@ -284,89 +284,81 @@
                   </thead>
                   <tbody>
                     @foreach($carts as $cart)
+                      @if($cart->status == 'notyet')
                       <tr>
                         <td>{{ $loop->iteration }}</td>
                         <td>{{$cart->product->product_name}}</td>
                         <td>{{$cart->product->price}}</td>
                         <td>{{$cart->qty}}</td>
-                        <td></td>
+                        <td>{{$cart->product->price * $cart->qty}}</td>
                         <td>
-                        <center>
-                        <button type="submit" class="btn btn-primary">Edit</button>
-                        <button type="submit" class="btn btn-danger">Delete</button>
-                        </center>
-                        
+                          <center>
+                            <a href="#" data-target="#editcartModal" data-toggle="modal" class="btn btn-primary">Edit</a>
+                            <form action="/cartuser/{{ $cart->id }}" method="POST" class="d-inline">
+                              @method('delete')
+                              @csrf
+                              <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                          </center>
                         </td>
                       </tr>
+                      @endif
                     @endforeach
                   </tbody>
                 </table>
-                Total Price<br><br>
-                <button type="button" data-toggle="modal" data-target="#exampleModal" class="btn btn-primary">Buy</button>
+                <br>
+                <button type="button" data-toggle="modal" data-target="#buycartModal" class="btn btn-primary">Buy</button>
               </div>
-              <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Buy Product</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <div class="modal-body">
-                                        <form method="POST" action="/cartuser/beli" enctype="multipart/form-data">
-                                        @csrf 
-                                          <div class="form-group">
-                                          <div class="col">
-                                            <label for="id_product">Cart</label>
-                                              <select class="form-control @error('id_product') is-invalid @enderror" id="id_product" placeholder="Nothing " name="id_product">
-                                                @foreach($carts as $cart)
-                                                  <option value="{{$cart->product->id}}">{{$cart->product->product_name}}</option>
-                                                @endforeach
-                                                @error('id_transaksi')<div class="invalid-feedback"> {{ $message }}</div> @enderror
-                                              </select>	
-                                          </div>
-                                          </div>
-                                        <div class="col">
-                                            <label for="address">Address</label>
-                                            <input type="text" class="form-control @error('address') is-invalid @enderror" id="address" placeholder="Ex: Jl. Kampus Unud No.1" name="address">
-                                            @error('address')<div class="invalid-feedback"> {{ $message }}</div> @enderror
-                                        </div>
-                                        <div class="col">
-                                            <label for="regency">Regency</label>
-                                            <input type="text" class="form-control" id="regency" placeholder="Ex: Kuta Selatan" name="regency">
-                                        </div>
-                                        <div class="col">
-                                            <label for="province">Province</label>
-                                            <input type="text" class="form-control @error('province') is-invalid @enderror" id="province" placeholder="Ex: Bali" name="province">
-                                            @error('province')<div class="invalid-feedback"> {{ $message }}</div> @enderror
-                                        </div>
-                                        
-                                        <div class="col">
-                                            <div class="form-group">
-                                            <label for="courier">Courier</label>
-                                                <select class="form-control @error('courier') is-invalid @enderror" id="courier" placeholder="Nothing " name="courier">
-                                                    @foreach($couriers as $courier)
-                                                    <option value="{{ $courier->id}}">{{ $courier->courier }}</option>
-                                                    
-                                                    @endforeach
-                                                    @error('courier')<div class="invalid-feedback"> {{ $message }}</div> @enderror
-                                                </select>	
-                                             </div>
-                                        </div>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="submit" class="btn btn-success">Buy</button>
-                                            </form>
-                                        </div>
-                                        </div>
-                                    </div>
-                                </div>
-              <!-- sampe sini -->
+              <div class="modal fade" id="buycartModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">Buy Cart</h5>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body">
+                      <form method="POST" action="/cartuser" enctype="multipart/form-data">
+                        @csrf 
+                        <div class="col">
+                          <label for="province">Province</label>
+                          <select name="province_to" class="form-control">
+                            <option value="" holder>Pilih Provinsi Tujuan</option>
+                            @foreach($provinsi as $province)
+                              <option value="{{$province->id}}">{{$province->province}}</option>
+                            @endforeach
+                          </select>
+                        </div> 
+                        <div class="col">
+                          <label for="regency">Regency</label>
+                          <select name="destination" class="form-control">
+                            <option value="" holder>Pilih Kota Tujuan</option>
+                          </select>
+                        </div>
+                        <div class="col">
+                          <label for="address">Address</label>
+                          <input type="text" class="form-control @error('address') is-invalid @enderror" id="address" placeholder="Ex: Jl. Kampus Unud No.1" name="address">
+                          @error('address')<div class="invalid-feedback"> {{ $message }}</div> @enderror
+                        </div>        
+                        <div class="col">
+                          <div class="form-group">
+                            <label for="courier">Courier</label>
+                            <select class="form-control @error('courier') is-invalid @enderror" id="courier" placeholder="Nothing " name="courier">
+                              @foreach($couriers as $courier)
+                               <option value="{{ $courier->id}}">{{ $courier->courier }}</option>     
+                              @endforeach
+                              @error('courier')<div class="invalid-feedback"> {{ $message }}</div> @enderror
+                            </select>	
+                          </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="submit" class="btn btn-success">Buy</button>
+                      </form>
+                    </div>
+                  </div>
+              </div>
             </div>
-          </div>
-
-        </div>
         <!-- /.container-fluid -->
 
       </div>
@@ -428,6 +420,29 @@
 
   <!-- Page level custom scripts -->
   <script src="{{asset('akun/js/demo/datatables-demo.js')}}"></script>
+  <script type="text/javascript">
+        $(document).ready(function() {
+            $('select[name="province_to"]').on('change', function(){
+                var cityId = $(this).val();
+                if(cityId){
+                    $.ajax({
+                        url: '/getCity/ajax/'+cityId,
+                        type: "GET",
+                        dataType: "json",
+                        success: function(data){
+                            $('select[name="destination"]').empty();
+                            $.each(data, function(key, value){
+                                $('select[name="destination"]').append(
+                                    '<option value="'+ key + '">'+value+'</option>');
+                            }); 
+                        }
+                    });
+                }else{
+                    $('select[name="destination"]').empty();
+                }
+            });    
+        });
+    </script>
 
 </body>
 

@@ -56,7 +56,7 @@
                 @foreach($products as $product)
                     <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                         <div class="shop-cat-box">
-                            <img class="img-fluid" src="/fresh/images/{{ $product->product_image->image_name }}" alt="" />
+                            <img class="img-fluid" src="{{ $product->getImage() }}" alt="" />
                             <a class="btn hvr-hover" href="/products/{{ $product->id }}">{{ $product->product_name }}</a>
                         </div>
                     </div>
@@ -107,23 +107,6 @@
             </div>
 
             <div class="row special-list">
-            <div class="col-lg-3 col-md-6 special-grid top-featured">
-                    <div class="products-single fix">
-                        <div class="box-img-hover">
-                            <div class="type-lb">
-                                <p class="sale">Sale</p>
-                            </div>
-                            <img src="/fresh/images/{{ $product->product_image->image_name }}" class="img-fluid" alt="Image">
-                            <div class="mask-icon">
-                                <a class="cart" href="/products/{{ $product->id }}">View Product</a>
-                            </div>
-                        </div>
-                        <div class="why-text">
-                            <h4>{{ $product->product_name }}</h4>
-                            <h5>Rp. {{ $product->price }}/kg</h5>
-                        </div>
-                    </div>
-                </div>
             @foreach($products as $product)
                 <div class="col-lg-3 col-md-6 special-grid best-seller">
                     <div class="products-single fix">
@@ -131,7 +114,7 @@
                             <div class="type-lb">
                                 <p class="sale">Sale</p>
                             </div>
-                            <img src="/fresh/images/{{ $product->product_image->image_name }}" class="img-fluid" alt="Image">
+                            <img src="{{ $product->getImage() }}" class="img-fluid" alt="Image">
                             <div class="mask-icon">
                                 <a class="cart" href="/products/{{ $product->id }}">View Product</a>
                             </div>
