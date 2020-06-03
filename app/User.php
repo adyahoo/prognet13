@@ -31,6 +31,10 @@ class User extends Authenticatable
     }
 
     public function review(){
-        return $this->hasOne(Product_Review::class);
+        return $this->hasMany(Product_Review::class);
+    }
+
+    public function notifications(){
+        return $this->morphMany(user_notification::class, 'notifiable')->orderBy('created_at', 'desc');
     }
 }

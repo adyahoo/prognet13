@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Cart;
 use App\Product;
 use App\Courier;
@@ -140,6 +141,8 @@ class CartsController extends Controller
            $sell += $selling;
         }
         $sub_total = $sell+$kirim;
+        $date = Carbon::now()->addHours(8);
+        $timeout = $date->addHours(24);
 
         $transaksi = Transaction::create([
             'address' => $request->address,
@@ -150,6 +153,7 @@ class CartsController extends Controller
             'shipping_cost' => $kirim,
             'sub_total' => $sub_total,
             'courier_id' => $courier_id,
+            'timeout' => $timeout,
             'status' => 'unverified'
         ]);
         

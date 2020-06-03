@@ -8,6 +8,9 @@ use Illuminate\Http\Request;
 use App\Product;
 use App\Product_Review;
 use App\Product_Image;
+use App\Admin;
+use App\Notifications\NewReview;
+
 
 class ReviewController extends Controller
 {
@@ -30,6 +33,11 @@ class ReviewController extends Controller
  		// $review->content = $request->content;
  		// $review->save();
  		Auth::guard('user')->user()->review()->create($request->all());
+        $admins = Admin::all();
+        foreach ($admins as $admin) {
+            $admin->notify(new NewReview());
+        }
+
  		return back();
     }
 }

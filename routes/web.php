@@ -19,40 +19,16 @@ Route::get('/products', 'TransactionsController@index');
 Route::get('/products/{id}', 'TransactionsController@create');
 Route::post('/products/{id}', 'TransactionsController@store');
 Route::post('/products/{id}/cart', 'CartsController@store');
-Route::get('/datauser', 'UsersController@index');
-Route::get('/dataadmin', 'AdminsController@index');
+
 // Route::get('/products', 'ProductsController@index');
 // Route::get('/products/{product}', 'ProductsController@show');
 // Route::get('/datauser', 'UsersController@index');
 // Route::get('/dataadmin', 'AdminsController@index');
 
-Route::get('/listproduct', 'ListProductsController@index');
-Route::get('/listproduct/{product}/edit', 'ListProductsController@edit');
-Route::patch('/listproduct/{product}', 'ListProductsController@update');
-Route::delete('/listproduct/{product}', 'ListProductsController@destroy');
-Route::get('/buatproduct', 'ListProductsController@create');
-Route::POST('/buatproduct', 'ListProductsController@store');
-
-Route::get('/listcategory', 'CategoriesController@index');
-Route::get('/listcategory/{category}/edit', 'CategoriesController@edit');
-Route::patch('/listcategory/{category}', 'CategoriesController@update');
-Route::delete('/listcategory/{category}', 'CategoriesController@destroy');
-Route::get('/buatcategory', 'CategoriesController@create');
-Route::POST('/buatcategory', 'CategoriesController@store');
-
-Route::get('/listcourier', 'CouriersController@index');
-Route::get('/listcourier/{courier}/edit', 'CouriersController@edit');
-Route::patch('/listcourier/{courier}', 'CouriersController@update');
-Route::delete('/listcourier/{courier}', 'CouriersController@destroy');
-Route::get('/buatcourier', 'CouriersController@create');
-Route::POST('/buatcourier', 'CouriersController@store');
-
 // Route::get('/profiluser', function () {
 //     return view('user.profiluser');
 // })->middleware('admin:user');
-Route::get('/dashboard', function(){
-    return view('account.dashboard');
-})->middleware('admin:admin');
+
 // Route::get('/dashboardUser', function(){
 //     return view('account.dashboardUser');
 // })->middleware('admin:user');
@@ -132,7 +108,39 @@ Route::get('/adminRegister', function(){
 	return view('auth.adminregister');
 });
 Route::get('/adminLogout','AdminController@logoutAdmin');
-Route::get('/adminHome', 'AdminController@index')->middleware('admin:admin');	
+
+Route::get('/dashboardAdmin','AdminController@index')->middleware('admin:admin');
+Route::get('/konfirmasiAdmin', 'AdminController@konfirmasiAdmin');
+Route::get('/datauser', 'AdminController@dataUser');
+Route::get('/dataadmin', 'AdminController@dataAdmin');
+
+Route::get('/responseadmin', 'AdminController@review');
+Route::post('/responseadmin', 'AdminController@response');
+Route::delete('/deleteReview/{id}','AdminController@deleteResponse');
+
+Route::delete('/declineAdmin/{id}','AdminController@declineKonf');
+Route::post('/approveAdmin','AdminController@updateKonf');
+
+Route::get('/listproduct', 'ListProductsController@index');
+Route::get('/listproduct/{product}/edit', 'ListProductsController@edit');
+Route::patch('/listproduct/{product}', 'ListProductsController@update');
+Route::delete('/listproduct/{product}', 'ListProductsController@destroy');
+Route::get('/buatproduct', 'ListProductsController@create');
+Route::POST('/buatproduct', 'ListProductsController@store');
+
+Route::get('/listcategory', 'CategoriesController@index');
+Route::get('/listcategory/{category}/edit', 'CategoriesController@edit');
+Route::patch('/listcategory/{category}', 'CategoriesController@update');
+Route::delete('/listcategory/{category}', 'CategoriesController@destroy');
+Route::get('/buatcategory', 'CategoriesController@create');
+Route::POST('/buatcategory', 'CategoriesController@store');
+
+Route::get('/listcourier', 'CouriersController@index');
+Route::get('/listcourier/{courier}/edit', 'CouriersController@edit');
+Route::patch('/listcourier/{courier}', 'CouriersController@update');
+Route::delete('/listcourier/{courier}', 'CouriersController@destroy');
+Route::get('/buatcourier', 'CouriersController@create');
+Route::POST('/buatcourier', 'CouriersController@store');
 
 //route user
 Route::post('/userLogin','UserController@loginUser');
@@ -160,3 +168,23 @@ Route::resource('postRating','ReviewController');
 //route ongkir
 Route::get('/getCity/ajax/{id}','TransactionsController@getCityAjax');
 // Route::get('/ongkir','OngkirController@index');
+
+//route update status expired
+Route::get('/pesananuser/expired/{id}','TransactionsController@updateExpired');
+
+//route notif
+Route::get('/markRead', function(){
+    if (Auth::guard('user')->check()) {
+        Auth::guard('user')->user()->unreadNotifications->markAsRead();
+        return redirect('/profiluser');
+    }elseif (Auth::guard('admin')->check()) {
+        Auth::guard('admin')->user()->unreadNotifications->markAsRead();
+        return redirect('/dashboardAdmin');
+    }
+
+});
+
+//route report
+Route::post('/reportBulan','TransactionsController@getBulan');
+Route::post('/reportTahun','TransactionsController@getTahun');
+Route::post('/grafik','TransactionsController@grafik');

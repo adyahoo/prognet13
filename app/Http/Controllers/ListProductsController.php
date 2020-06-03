@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Hash;
 use App\Category;
 use App\Product;
-use App\Product_image;
+use App\Product_Image;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 // use Illuminate\Support\Facades\File;
@@ -21,7 +21,7 @@ class ListProductsController extends Controller
     public function index()
     {
         $products = Product::get();
-        $prod_images = Product_image::get();
+        $prod_images = Product_Image::get();
         return view('admin.listproduct', compact('products'));
         // echo $products;
     }
@@ -169,6 +169,8 @@ class ListProductsController extends Controller
      */
     public function destroy(Product $product)
     {
+        $image_id = Product_Image::where('product_id',$product->id)->first();
+        Product_Image::destroy($image_id->id);
         Product::destroy($product->id);
         return redirect('/listproduct')->with('status', 'Data Product Berhasil Dihapus!');
     }
