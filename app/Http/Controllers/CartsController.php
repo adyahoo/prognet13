@@ -21,6 +21,12 @@ class CartsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function __construct()
+    {
+        $this->middleware('isUser');
+    }
+    
     public function index()
     {
         echo "ini index";
@@ -49,15 +55,19 @@ class CartsController extends Controller
      */
     public function store(Request $request)
     {
-        // echo "sukses";
-        $id_user = Auth::guard('user')->id();
-        Cart::create([
-            'user_id' => $id_user,
-            'product_id' => $request->id_product,
-            'qty' => $request->qty,
-            'status' => 'notyet'
-        ]);
-        return redirect('/products');
+        if(Auth::guard('user')->check()){
+            $id_user = Auth::guard('user')->id();
+            Cart::create([
+                'user_id' => $id_user,
+                'product_id' => $request->id_product,
+                'qty' => $request->qty,
+                'status' => 'notyet'
+            ]);
+            return redirect('/products');
+        }else{
+            return redirect('/userLogin');
+        }
+        
     }
 
     /**

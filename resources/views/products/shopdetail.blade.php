@@ -179,13 +179,23 @@
         <div class="media-body">
             <ul>
                 @foreach($all_review as $review)
-                <div class="media mb-1">
+                <div class="media mb-2">
                     <star-rating :star-size=20 :rating="{{$review->rating}}" :read-only="true" :show-rating="false"></star-rating>
-                    <h3>
-                        {{$review->content}}
-                    </h3>
-                    <br>
+                    <h4>{{$review->user->name}}</h4>
                 </div>
+                <h2>{{$review->content}}</h2>
+                <div class="card-body">
+                    Reply :
+                    <br>
+                    @foreach($all_respon as $respon)
+                        @if($respon->review_id == $review->id)
+                            {{$respon->content}}
+                            <br>
+                        @else
+                        @endif
+                    @endforeach
+                </div>
+                <br>
                 @endforeach    
             </ul>
         </div>

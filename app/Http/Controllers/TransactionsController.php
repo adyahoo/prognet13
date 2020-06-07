@@ -13,6 +13,7 @@ use App\Cart;
 use App\City;
 use App\Province;
 use App\Admin;
+use App\Response;
 use App\Notifications\NewTransaction;
 use App\Notifications\UploadProof;
 use Illuminate\Support\Facades\Auth;
@@ -26,6 +27,12 @@ class TransactionsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function __construct()
+    {
+        $this->middleware('isUser');
+    }
+    
     public function index()
     {
         $products = Product::all();
@@ -42,6 +49,8 @@ class TransactionsController extends Controller
     {
         $product = \App\Product::find($id);
         $all_review = Product_Review::with('Product')->get()->where('product_id',$id);
+        $all_respon = Response::with('Product_Review')->get();
+        // dd($all_respon);
         $couriers = Courier::all();
         $provinces = Province::all();
         if(auth()){
@@ -50,7 +59,7 @@ class TransactionsController extends Controller
             $userName = "";
         }
         // echo $userName;
-        return view('products.shopdetail', ['product' => $product,'courier' => $couriers, 'all_review'=> $all_review, 'userName' => $userName, 'provinces'=>$provinces]);
+        return view('products.shopdetail', ['product' => $product,'all_respon' => $all_respon,'courier' => $couriers, 'all_review'=> $all_review, 'userName' => $userName, 'provinces'=>$provinces]);
     }
 
     /**
@@ -61,8 +70,6 @@ class TransactionsController extends Controller
      */
     public function store(Request $request)
     {
-        
-        // dd($request)->all();
         $origin = 114;
         $destination =$request->destination;
         $weight = 1000;
@@ -71,58 +78,63 @@ class TransactionsController extends Controller
         $province_name = Province::where('id',$request->province_to)->first('province');
         $regency_name = City::where('id',$destination)->first('city_name');
 
-        $ongkir = Http::asForm()->withHeaders([
-            'key'=>'f9941f3ab651b045b7b3c32e83edc255'
-        ])->post('https://api.rajaongkir.com/starter/cost',[
-            'origin'=> $origin,
-            'destination'=> $destination,
-            'weight'=> $weight,
-            'courier'=> $courier_name->courier
-        ]);
-        $cekongkir = $ongkir['rajaongkir']['results'][0]['costs'];
+        if(Auth::guard('user')->check()){
+            $ongkir = Http::asForm()->withHeaders([
+                'key'=>'f9941f3ab651b045b7b3c32e83edc255'
+            ])->post('https://api.rajaongkir.com/starter/cost',[
+                'origin'=> $origin,
+                'destination'=> $destination,
+                'weight'=> $weight,
+                'courier'=> $courier_name->courier
+            ]);
+            $cekongkir = $ongkir['rajaongkir']['results'][0]['costs'];
+            
+            foreach ($cekongkir as $hasil) {
+                $kirim=$hasil['cost'][0]['value'];
+            };
+
+            $total = $request->price * $request->qty;
+            $sub_total = $total + $kirim;
+            $id_user = Auth::guard('user')->id();
+            $date = Carbon::now('Asia/Makassar');
+            $timeout = $date->addHours(24);
+            // echo $date;
+            $transaksi = Transaction::create([
+                'address' => $request->address,
+                'user_id' => $id_user,
+                'regency' => $regency_name->city_name,
+                'province' => $province_name->province,
+                'total' => $total,
+                'shipping_cost' => $kirim,
+                'sub_total' => $sub_total,
+                'courier_id' => $courier_id,
+                'timeout' => $timeout,
+                'status' => 'unverified'
+            ]);
+
+            $transaksi_id = $transaksi->id;
+            // echo $transaksi_id;
+            // $transaction = Transaction::where('user_id',$id_user)->get();
+            // foreach ($transaction as $transactions) {
+            //     $transaction_id = $transactions->id;
+            // }
+            Transaction_Detail::create([
+                'transaction_id' => $transaksi_id,
+                'product_id' => $request->product_id,
+                'qty' => $request->qty,
+                'selling_price' => $request->price
+            ]);
+
+            $admins = Admin::all();
+            foreach ($admins as $admin) {
+                $admin->notify(new NewTransaction());
+            }
+
+            return redirect('/pesananuser');
+        }else{
+            return redirect('/userLogin');
+        }     
         
-        foreach ($cekongkir as $hasil) {
-            $kirim=$hasil['cost'][0]['value'];
-        };
-
-        $total = $request->price * $request->qty;
-        $sub_total = $total + $kirim;
-        $id_user = Auth::guard('user')->id();
-        $date = Carbon::now('Asia/Makassar');
-        $timeout = $date->addHours(24);
-        // echo $date;
-        $transaksi = Transaction::create([
-            'address' => $request->address,
-            'user_id' => $id_user,
-            'regency' => $regency_name->city_name,
-            'province' => $province_name->province,
-            'total' => $total,
-            'shipping_cost' => $kirim,
-            'sub_total' => $sub_total,
-            'courier_id' => $courier_id,
-            'timeout' => $timeout,
-            'status' => 'unverified'
-        ]);
-
-        $transaksi_id = $transaksi->id;
-        // echo $transaksi_id;
-        // $transaction = Transaction::where('user_id',$id_user)->get();
-        // foreach ($transaction as $transactions) {
-        //     $transaction_id = $transactions->id;
-        // }
-        Transaction_Detail::create([
-            'transaction_id' => $transaksi_id,
-            'product_id' => $request->product_id,
-            'qty' => $request->qty,
-            'selling_price' => $request->price
-        ]);
-
-        $admins = Admin::all();
-        foreach ($admins as $admin) {
-            $admin->notify(new NewTransaction());
-        }
-
-        return redirect('/pesananuser');
     }
 
     public function destroy(Transaction $transaction)
@@ -198,6 +210,7 @@ class TransactionsController extends Controller
     }
 
     public function updateExpired($id){
+        // echo "sukses";
         Transaction::where('id',$id)->update([
             'status' => 'expired'
         ]);
@@ -269,6 +282,16 @@ class TransactionsController extends Controller
             }
         }   
         return response()->json(['success' => 'berhasil', 'grafik' => $grafik]);
+    }
+
+    public function getGrafik(){
+        // echo "sukses";
+        for($i = 1;$i<=12;$i++){
+            $grafik[$i] = Transaction::whereMonth('created_at','=', $i)->whereYear('created_at','=', date('Y'))->count();
+        }
+        // dd($grafik);
+        return json_encode($grafik);
+        // return response()->json(['success' => 'berhasil', 'grafik' => $grafik]);
     }
 
     public function findCountStatus($status, $bulan, $tahun, $cek)

@@ -28,6 +28,7 @@ class ComposerStaticInit853016b1a1d66b6600b155d008d47109
         'b6ec61354e97f32c0ae683041c78392a' => __DIR__ . '/..' . '/scrivo/highlight.php/HighlightUtilities/functions.php',
         'ed962a97bd972bc82007176b647d4e36' => __DIR__ . '/..' . '/facade/ignition/src/helpers.php',
         '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
+        '3109cb1a231dcd04bee1f9f620d46975' => __DIR__ . '/..' . '/paragonie/sodium_compat/autoload.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -88,6 +89,7 @@ class ComposerStaticInit853016b1a1d66b6600b155d008d47109
         ),
         'P' => 
         array (
+            'Pusher\\' => 7,
             'Psy\\' => 4,
             'Psr\\SimpleCache\\' => 16,
             'Psr\\Log\\' => 8,
@@ -293,6 +295,10 @@ class ComposerStaticInit853016b1a1d66b6600b155d008d47109
         array (
             0 => __DIR__ . '/..' . '/ramsey/uuid/src',
         ),
+        'Pusher\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/pusher/pusher-php-server/src',
+        ),
         'Psy\\' => 
         array (
             0 => __DIR__ . '/..' . '/psy/psysh/src',
@@ -481,7 +487,6 @@ class ComposerStaticInit853016b1a1d66b6600b155d008d47109
         'App\\Courier' => __DIR__ . '/../..' . '/app/Courier.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
         'App\\Http\\Controllers\\AdminController' => __DIR__ . '/../..' . '/app/Http/Controllers/AdminController.php',
-        'App\\Http\\Controllers\\AdminsController' => __DIR__ . '/../..' . '/app/Http/Controllers/AdminsController.php',
         'App\\Http\\Controllers\\Auth\\ConfirmPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ConfirmPasswordController.php',
         'App\\Http\\Controllers\\Auth\\ForgotPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ForgotPasswordController.php',
         'App\\Http\\Controllers\\Auth\\LoginController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/LoginController.php',
@@ -500,7 +505,6 @@ class ComposerStaticInit853016b1a1d66b6600b155d008d47109
         'App\\Http\\Controllers\\ReviewController' => __DIR__ . '/../..' . '/app/Http/Controllers/ReviewController.php',
         'App\\Http\\Controllers\\TransactionsController' => __DIR__ . '/../..' . '/app/Http/Controllers/TransactionsController.php',
         'App\\Http\\Controllers\\UserController' => __DIR__ . '/../..' . '/app/Http/Controllers/UserController.php',
-        'App\\Http\\Controllers\\UsersController' => __DIR__ . '/../..' . '/app/Http/Controllers/UsersController.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',
         'App\\Http\\Middleware\\AdminMiddleware' => __DIR__ . '/../..' . '/app/Http/Middleware/AdminMiddleware.php',
         'App\\Http\\Middleware\\Authenticate' => __DIR__ . '/../..' . '/app/Http/Middleware/Authenticate.php',
@@ -509,7 +513,13 @@ class ComposerStaticInit853016b1a1d66b6600b155d008d47109
         'App\\Http\\Middleware\\RedirectIfAuthenticated' => __DIR__ . '/../..' . '/app/Http/Middleware/RedirectIfAuthenticated.php',
         'App\\Http\\Middleware\\TrimStrings' => __DIR__ . '/../..' . '/app/Http/Middleware/TrimStrings.php',
         'App\\Http\\Middleware\\TrustProxies' => __DIR__ . '/../..' . '/app/Http/Middleware/TrustProxies.php',
+        'App\\Http\\Middleware\\UserMiddleware' => __DIR__ . '/../..' . '/app/Http/Middleware/UserMiddleware.php',
         'App\\Http\\Middleware\\VerifyCsrfToken' => __DIR__ . '/../..' . '/app/Http/Middleware/VerifyCsrfToken.php',
+        'App\\Notifications\\AdminResponse' => __DIR__ . '/../..' . '/app/Notifications/AdminResponse.php',
+        'App\\Notifications\\NewReview' => __DIR__ . '/../..' . '/app/Notifications/NewReview.php',
+        'App\\Notifications\\NewTransaction' => __DIR__ . '/../..' . '/app/Notifications/NewTransaction.php',
+        'App\\Notifications\\UpdateStatus' => __DIR__ . '/../..' . '/app/Notifications/UpdateStatus.php',
+        'App\\Notifications\\UploadProof' => __DIR__ . '/../..' . '/app/Notifications/UploadProof.php',
         'App\\Product' => __DIR__ . '/../..' . '/app/Product.php',
         'App\\Product_Image' => __DIR__ . '/../..' . '/app/Product_Image.php',
         'App\\Product_Review' => __DIR__ . '/../..' . '/app/Product_Review.php',
@@ -520,9 +530,12 @@ class ComposerStaticInit853016b1a1d66b6600b155d008d47109
         'App\\Providers\\EventServiceProvider' => __DIR__ . '/../..' . '/app/Providers/EventServiceProvider.php',
         'App\\Providers\\RouteServiceProvider' => __DIR__ . '/../..' . '/app/Providers/RouteServiceProvider.php',
         'App\\Province' => __DIR__ . '/../..' . '/app/Province.php',
+        'App\\Response' => __DIR__ . '/../..' . '/app/Response.php',
         'App\\Transaction' => __DIR__ . '/../..' . '/app/Transaction.php',
         'App\\Transaction_Detail' => __DIR__ . '/../..' . '/app/Transaction_Detail.php',
         'App\\User' => __DIR__ . '/../..' . '/app/User.php',
+        'App\\admin_notification' => __DIR__ . '/../..' . '/app/admin_notification.php',
+        'App\\user_notification' => __DIR__ . '/../..' . '/app/user_notification.php',
         'Asm89\\Stack\\Cors' => __DIR__ . '/..' . '/asm89/stack-cors/src/Asm89/Stack/Cors.php',
         'Asm89\\Stack\\CorsService' => __DIR__ . '/..' . '/asm89/stack-cors/src/Asm89/Stack/CorsService.php',
         'Carbon\\Carbon' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Carbon.php',
@@ -3523,7 +3536,6 @@ class ComposerStaticInit853016b1a1d66b6600b155d008d47109
         'Prophecy\\Util\\ExportUtil' => __DIR__ . '/..' . '/phpspec/prophecy/src/Prophecy/Util/ExportUtil.php',
         'Prophecy\\Util\\StringUtil' => __DIR__ . '/..' . '/phpspec/prophecy/src/Prophecy/Util/StringUtil.php',
         'ProvinceSeeder' => __DIR__ . '/../..' . '/database/seeds/ProvinceSeeder.php',
-        'ProvincesSeeder' => __DIR__ . '/../..' . '/database/seeds/ProvincesSeeder.php',
         'Psr\\Container\\ContainerExceptionInterface' => __DIR__ . '/..' . '/psr/container/src/ContainerExceptionInterface.php',
         'Psr\\Container\\ContainerInterface' => __DIR__ . '/..' . '/psr/container/src/ContainerInterface.php',
         'Psr\\Container\\NotFoundExceptionInterface' => __DIR__ . '/..' . '/psr/container/src/NotFoundExceptionInterface.php',
@@ -3689,6 +3701,11 @@ class ComposerStaticInit853016b1a1d66b6600b155d008d47109
         'Psy\\VersionUpdater\\GitHubChecker' => __DIR__ . '/..' . '/psy/psysh/src/VersionUpdater/GitHubChecker.php',
         'Psy\\VersionUpdater\\IntervalChecker' => __DIR__ . '/..' . '/psy/psysh/src/VersionUpdater/IntervalChecker.php',
         'Psy\\VersionUpdater\\NoopChecker' => __DIR__ . '/..' . '/psy/psysh/src/VersionUpdater/NoopChecker.php',
+        'Pusher\\Pusher' => __DIR__ . '/..' . '/pusher/pusher-php-server/src/Pusher.php',
+        'Pusher\\PusherCrypto' => __DIR__ . '/..' . '/pusher/pusher-php-server/src/PusherCrypto.php',
+        'Pusher\\PusherException' => __DIR__ . '/..' . '/pusher/pusher-php-server/src/PusherException.php',
+        'Pusher\\PusherInstance' => __DIR__ . '/..' . '/pusher/pusher-php-server/src/PusherInstance.php',
+        'Pusher\\Webhook' => __DIR__ . '/..' . '/pusher/pusher-php-server/src/Webhook.php',
         'Ramsey\\Uuid\\BinaryUtils' => __DIR__ . '/..' . '/ramsey/uuid/src/BinaryUtils.php',
         'Ramsey\\Uuid\\Builder\\DefaultUuidBuilder' => __DIR__ . '/..' . '/ramsey/uuid/src/Builder/DefaultUuidBuilder.php',
         'Ramsey\\Uuid\\Builder\\DegradedUuidBuilder' => __DIR__ . '/..' . '/ramsey/uuid/src/Builder/DegradedUuidBuilder.php',

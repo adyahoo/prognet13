@@ -5,6 +5,16 @@
  */
 import VueStarRating  from 'vue-star-rating'
 
+window.Pusher = require('pusher-js');
+import Echo from "laravel-echo";
+
+window.Echo = new Echo({
+    broadcaster: 'pusher',
+    key: 'b41e2bfaa7602ab66605',
+    cluster: 'eu',
+    encrypted: true
+});
+
 require('./bootstrap');
 
 window.Vue = require('vue');

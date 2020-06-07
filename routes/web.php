@@ -33,17 +33,6 @@ Route::post('/products/{id}/cart', 'CartsController@store');
 //     return view('account.dashboardUser');
 // })->middleware('admin:user');
 
-
-Route::get('/profiluser', 'UserController@TampilUser');
-Route::get('/pesananuser', 'TransactionsController@pesananUser');
-Route::post('/pesananuser/konfirmasi', 'TransactionsController@updateKonf');
-Route::delete('/pesananuser/{transaction}', 'TransactionsController@destroy');
-Route::get('/cartuser', 'CartsController@create');
-Route::get('/cartuser/{cart}/edit', 'CartsController@edit');
-Route::post('/cartuser/{cart}', 'CartsController@update');
-Route::delete('/cartuser/{cart}', 'CartsController@destroy');
-Route::post('/cartuser', 'CartsController@transaction');
-
 // Route::get('/register', function () {
 //     return view('register');
 // });
@@ -103,62 +92,74 @@ Route::post('/adminLogin','AdminController@loginAdmin');
 Route::get('/adminLogin', function(){
 	return view('auth.adminlogin');
 });
-Route::post('/adminRegister','AdminController@registerAdmin');
-Route::get('/adminRegister', function(){
-	return view('auth.adminregister');
-});
+
 Route::get('/adminLogout','AdminController@logoutAdmin');
 
-Route::get('/dashboardAdmin','AdminController@index')->middleware('admin:admin');
-Route::get('/konfirmasiAdmin', 'AdminController@konfirmasiAdmin');
-Route::get('/datauser', 'AdminController@dataUser');
-Route::get('/dataadmin', 'AdminController@dataAdmin');
+Route::get('/dashboardAdmin','AdminController@index');
 
-Route::get('/responseadmin', 'AdminController@review');
-Route::post('/responseadmin', 'AdminController@response');
-Route::delete('/deleteReview/{id}','AdminController@deleteResponse');
+Route::group(['middleware' => 'isAdmin'], function(){
+    Route::get('/listproduct', 'ListProductsController@index');  
+    Route::get('/listproduct/{product}/edit', 'ListProductsController@edit');
+    Route::patch('/listproduct/{product}', 'ListProductsController@update');
+    Route::delete('/listproduct/{product}', 'ListProductsController@destroy');
+    Route::get('/buatproduct', 'ListProductsController@create');
+    Route::POST('/buatproduct', 'ListProductsController@store');  
 
-Route::delete('/declineAdmin/{id}','AdminController@declineKonf');
-Route::post('/approveAdmin','AdminController@updateKonf');
+    Route::get('/listcourier', 'CouriersController@index');
+    Route::get('/listcourier/{courier}/edit', 'CouriersController@edit');
+    Route::patch('/listcourier/{courier}', 'CouriersController@update');
+    Route::delete('/listcourier/{courier}', 'CouriersController@destroy');
+    Route::get('/buatcourier', 'CouriersController@create');
+    Route::POST('/buatcourier', 'CouriersController@store');
 
-Route::get('/listproduct', 'ListProductsController@index');
-Route::get('/listproduct/{product}/edit', 'ListProductsController@edit');
-Route::patch('/listproduct/{product}', 'ListProductsController@update');
-Route::delete('/listproduct/{product}', 'ListProductsController@destroy');
-Route::get('/buatproduct', 'ListProductsController@create');
-Route::POST('/buatproduct', 'ListProductsController@store');
+    Route::get('/listcategory', 'CategoriesController@index');
+    Route::get('/listcategory/{category}/edit', 'CategoriesController@edit');
+    Route::patch('/listcategory/{category}', 'CategoriesController@update');
+    Route::delete('/listcategory/{category}', 'CategoriesController@destroy');
+    Route::get('/buatcategory', 'CategoriesController@create');
+    Route::POST('/buatcategory', 'CategoriesController@store');
 
-Route::get('/listcategory', 'CategoriesController@index');
-Route::get('/listcategory/{category}/edit', 'CategoriesController@edit');
-Route::patch('/listcategory/{category}', 'CategoriesController@update');
-Route::delete('/listcategory/{category}', 'CategoriesController@destroy');
-Route::get('/buatcategory', 'CategoriesController@create');
-Route::POST('/buatcategory', 'CategoriesController@store');
+    Route::get('/konfirmasiAdmin', 'TransactionsAdmin@konfirmasiAdmin');
+    Route::get('/datauser', 'TransactionsAdmin@dataUser');
+    Route::get('/dataadmin', 'TransactionsAdmin@dataAdmin');
 
-Route::get('/listcourier', 'CouriersController@index');
-Route::get('/listcourier/{courier}/edit', 'CouriersController@edit');
-Route::patch('/listcourier/{courier}', 'CouriersController@update');
-Route::delete('/listcourier/{courier}', 'CouriersController@destroy');
-Route::get('/buatcourier', 'CouriersController@create');
-Route::POST('/buatcourier', 'CouriersController@store');
+    Route::get('/responseadmin', 'TransactionsAdmin@review');
+    Route::post('/responseadmin', 'TransactionsAdmin@response');
+    Route::delete('/deleteReview/{id}','TransactionsAdmin@deleteResponse');
+
+    Route::delete('/declineAdmin/{id}','TransactionsAdmin@declineKonf');
+    Route::post('/approveAdmin','TransactionsAdmin@updateKonf');
+
+    Route::post('/adminRegister','TransactionsAdmin@registerAdmin');
+    Route::get('/adminRegister', function(){
+        return view('auth.adminregister');
+    });
+});
 
 //route user
 Route::post('/userLogin','UserController@loginUser');
 Route::get('/userLogin', function(){
 	return view('auth.userlogin');
 })->name('login');
-// Route::get('/userLogin', function(){
-//     return view('loginn');
-// })->name('login');
+
 Route::post('/userRegister','UserController@registerUser');
 Route::get('/userRegister', function(){
     return view('auth.userregister');
 });
-// Route::get('/userRegister', function(){
-//     return view('register');
-// });
+
 Route::get('/userLogout','UserController@logoutUser');
-Route::get('/userHome', 'UserController@index')->middleware('admin:user');
+Route::get('/profiluser', 'UserController@TampilUser');
+
+Route::group(['middleware' => 'isUser'], function(){
+    Route::get('/pesananuser', 'TransactionsController@pesananUser');
+    Route::post('/pesananuser/konfirmasi', 'TransactionsController@updateKonf');
+    Route::delete('/pesananuser/{transaction}', 'TransactionsController@destroy');
+    Route::get('/cartuser', 'CartsController@create');
+    Route::get('/cartuser/{cart}/edit', 'CartsController@edit');
+    Route::post('/cartuser/{cart}', 'CartsController@update');
+    Route::delete('/cartuser/{cart}', 'CartsController@destroy');
+    Route::post('/cartuser', 'CartsController@transaction');
+});
 
 //route rating
 Route::get('/rating/{product}','ReviewController@index');
@@ -188,3 +189,5 @@ Route::get('/markRead', function(){
 Route::post('/reportBulan','TransactionsController@getBulan');
 Route::post('/reportTahun','TransactionsController@getTahun');
 Route::post('/grafik','TransactionsController@grafik');
+Route::get('/grafik','TransactionsController@getGrafik');
+Route::get('/getNotif','NotifController@getNotif');

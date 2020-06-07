@@ -209,7 +209,7 @@
                   <a href="/markRead" class="dropdown-item d-flex align-items-center">Mark All as Read</a>
                 </h6>
                 @foreach(Auth::guard('admin')->user()->unreadNotifications as $notif)
-                <a class="dropdown-item d-flex align-items-center" href="/markRead">
+                <a class="dropdown-item d-flex align-items-center" data-toggle="modal" data-target="#notifModal" href="#">
                   <div class="mr-3">
                     <div class="icon-circle bg-warning">
                       <i class="fas fa-file-alt text-white"></i>
@@ -217,7 +217,7 @@
                   </div>
                   <div>
                     <div class="small text-gray-500">{{$notif->created_at}}</div>
-                    <span class="font-weight-bold" style="color:lightgray">{{$notif->data['content']}}</span>
+                    <span class="btnNotif" id="btnNotif" style="color:lightgray">{{$notif->data['content']}}</span>
                   </div>
                 </a>
                 @endforeach
@@ -262,6 +262,36 @@
                 </a>
               </div>
             </li>
+
+            <div class="modal fade" id="notifModal" tabindex="-1" role="dialog" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Detail Notifikasi</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <form method="POST" action="/pesananuser/konfirmasi" enctype="multipart/form-data">
+                      @csrf
+                      <input type="hidden" name="id_transaksi" id="id_transaksi" value="">
+                      <div class="col">
+                        <label class="label">Bukti Pembayaran</label>
+                        <div class="form-group" >
+                          <!-- data-validate = "Profile is required" -->
+                          <input type="file" name="proof" id="proof" class="form-control">
+                          <span class="focus-input100"></span>
+                        </div>
+                      </div>
+                      <br>
+                      <div class="modal-footer">
+                        <button type="submit" class="btn btn-success">Konfirmasi Pembayaran</button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+            </div>
 
           </ul>
 
@@ -309,7 +339,7 @@
         <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
         <div class="modal-footer">
           <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-          <a class="btn btn-primary" href="/">Logout</a>
+          <a class="btn btn-primary" href="/adminLogout">Logout</a>
         </div>
       </div>
     </div>
@@ -334,45 +364,59 @@
   <script src="{{asset('akun/js/demo/datatables-demo.js')}}"></script>
   <script type="text/javascript" src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
 
+  <script type="text/javascript">
+    var span = document.getElementById('#btnNotif');
+
+    span.click = function(){
+      alert("sukses");
+    }
+  </script>
+
   <script>
-    window.onload = function () {
-    
-    //Better to construct options first and then pass it as a parameter
-    
-    
-    var options = {
-        axisX: {
-            interval:1,
-            labelMaxWidth: 180,           
-            labelAngle: -45, //90,
-            labelFontFamily:"verdana0"
-        },
-        title: {
-            text: "Grafik Jumlah Transaksi Perbulan {{date('Y')}}"              
-        },
-        data: [              
-        {
-            // Change type to "doughnut", "line", "splineArea", etc.
-            type: "column",
-            dataPoints: [
-                { label: "Januari",  y: parseInt($('#bulan1').val())},
-                { label: "Februari", y: parseInt($('#bulan2').val())},
-                { label: "Maret", y: parseInt($('#bulan3').val())},
-                { label: "April", y: parseInt($('#bulan4').val())},
-                { label: "Mei",  y: parseInt($('#bulan5').val())},
-                { label: "Juni",  y: parseInt($('#bulan6').val())},
-                { label: "Juli",  y: parseInt($('#bulan7').val())},
-                { label: "Agustus", y: parseInt($('#bulan8').val())},
-                { label: "September", y: parseInt($('#bulan9').val())},
-                { label: "Oktober",  y: parseInt($('#bulan10').val())},
-                { label: "November",  y: parseInt($('#bulan11').val())},
-                { label: "Desember",  y: parseInt($('#bulan12').val())},
-            ]
-        }
-        ]
-    };
-    
-      $("#chartContainer").CanvasJSChart(options);
+    window.onload = $.ajax({
+                        url: '/grafik',
+                        type: "GET",
+                        dataType: "json",
+                        success: function(data){
+                            // alert('sukses');
+                            getChart(data);
+                        }
+                    });
+
+    function getChart (data) {
+         var options = {
+          axisX: {
+              interval:1,
+              labelMaxWidth: 180,           
+              labelAngle: -45, //90,
+              labelFontFamily:"verdana0"
+          },
+          title: {
+              text: "Grafik Jumlah Transaksi Tahun {{date('Y')}}"              
+          },
+          data: [              
+          {
+              // Change type to "doughnut", "line", "splineArea", etc.
+              type: "column",
+              dataPoints: [
+                  { label: "Januari",  y: data[1]},
+                  { label: "Februari", y: data[2]},
+                  { label: "Maret", y: data[3]},
+                  { label: "April", y: data[4]},
+                  { label: "Mei",  y: data[5]},
+                  { label: "Juni",  y: data[6]},
+                  { label: "Juli",  y: data[7]},
+                  { label: "Agustus", y: data[8]},
+                  { label: "September", y: data[9]},
+                  { label: "Oktober",  y: data[10]},
+                  { label: "November",  y: data[11]},
+                  { label: "Desember",  y: data[12]},
+              ]
+          }
+          ]
+      };
+      
+        $("#chartContainer").CanvasJSChart(options);
     }
   </script>
 
@@ -554,14 +598,6 @@
     //   modalImg.src = this.src;
     //   captionText.innerHTML = this.alt;
     // }
-
-    // var span = document.getElementByClassName('close');
-
-    // span.onclick = function(){
-    //   modal.style.display = "none";
-    // }
-
-    
 
   </script>
 

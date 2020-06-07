@@ -123,7 +123,7 @@
                 <i class="fas fa-bell fa-fw"></i>
                 <!-- Counter - Alerts -->
                 @if(Auth::guard('user')->user()->unreadNotifications->count())
-                  <span class="badge badge-danger badge-counter">{{Auth::guard('user')->user()->unreadNotifications->count()}}</span>
+                  <span class="badge badge-danger badge-counter" name="countNtf" id="countNtf"></span>
                 @endif
               </a>
               <!-- Dropdown - Alerts -->
@@ -261,6 +261,24 @@
 
   <!-- Page level custom scripts -->
   <script src="{{asset('akun/js/demo/datatables-demo.js')}}"></script>
+  <script src="https://js.pusher.com/6.0/pusher.min.js"></script>
+
+  <script type="text/javascript">
+    $(document).ready(function(){
+        $.ajax({
+          url: '/getNotif',
+          type: "GET",
+          dataType: "json",
+          success: function(data){
+            // alert("sukses");
+            var sumNotif = data['count'];
+            document.getElementById("countNtf").innerHTML = sumNotif;
+          }
+        });
+    });
+    
+  </script>
+
   <script type="text/javascript">
         $(document).ready(function() {
             $('select[name="province_to"]').on('change', function(){
@@ -287,7 +305,42 @@
         $(".btnUpload").click(function(){
           $("#id_transaksi").val($(this).data("id"));
         });
-    </script>
+  </script>
+  <script type="text/javascript">
+                $(document).ready(function(){
+                  var sumRow =  $("#counter").val();
+                  var transId = $("#trans_id").val();
+                  var interval = setInterval(function(){
+                    for(var i=1; i <= Number(sumRow); i++){
+                      var expired = new Date($("#timeout_"+(i)).val()).getTime();
+                      var time = new Date().getTime();
+                      var end = expired - time;
+                      var hour = Math.floor((end%(1000 * 60 * 60 * 24))/(1000 * 60 * 60)); 
+                      var minute = Math.floor((end % (1000 * 60 * 60)) / (1000 * 60));
+                      var second = Math.floor((end % (1000 * 60)) / 1000);
+                      if(end<=0 || minute==NaN || hour==NaN || second==NaN){
+                        $.get('/pesananuser/expired/'+transId);
+                        // alert(transId);
+                        // $.ajax({
+                        //     url : '/pesananuser/expired/'+transId, // give complete url here
+                        //     type : 'post',
+                        //     data : {id:transId},
+                        //     success : function(data){
+                        //         alert('success');
+                        //     }
+                        // });
+                        var statusExp = $("#kondon_"+i).html("EXPIRED");
+                      }else{
+                        $("#kondon_"+i).html(hour+" : "+minute+" : "+second);
+                      }
+                    }
+                  },1000);
+                  
+                  $(".btnUpload").click(function(){
+                    $("#id_transaksi").val($(this).data("id"));
+                  });                
+                });
+  </script>
 
 </body>
 

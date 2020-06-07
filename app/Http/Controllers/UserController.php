@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
+
     public function index(){
         $user = User::get();
         return view('user.home',compact('user'));

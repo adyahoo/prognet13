@@ -58,7 +58,7 @@
             @elseif($trans->status == 'canceled' OR $trans->status == 'success' OR $trans->status == 'verified' OR $trans->status == 'expired')
             <tr>
               <td>{{ $count = $loop->iteration }}</td>
-              <td>EXPIRED</td>
+              <td>DONE</td>
               <td>{{$trans->address}}</td>
               <td>{{ $trans->total }}</td>
               <td>{{ $trans->shipping_cost }}</td>

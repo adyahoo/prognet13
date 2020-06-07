@@ -42,8 +42,15 @@ class Product extends Model
     }
 
     public function getStar(){
-        $sumStar = $this->product_review()->sum('rating');
-        $average = $sumStar/$this->product_review()->count();
-        return $average;
+        $count = $this->product_review()->count();
+        if($count!=0){
+            $sumStar = $this->product_review()->sum('rating');
+            $average = $sumStar/$count;
+            return $average;
+        }else{
+            $average = 0;
+            return $average;
+        }
+        
     }
 }

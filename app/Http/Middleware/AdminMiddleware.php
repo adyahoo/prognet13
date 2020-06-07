@@ -14,9 +14,9 @@ class AdminMiddleware extends Middleware
     public function redirectTo($request)
     {
         if(Auth::guard('admin')->check()){
+            return redirect('/dashboardAdmin');
+        }else{
             return redirect('/adminLogin');
-        }else if(Auth::guard('user')->check()){
-            return redirect('/userLogin');
         }
 
         // return $next($request);
