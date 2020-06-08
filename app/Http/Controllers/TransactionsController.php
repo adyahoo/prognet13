@@ -187,7 +187,7 @@ class TransactionsController extends Controller
         Transaction::where('id', $request->id_transaksi)
                 ->update([
                     'proof_of_payment' => $name_file,
-                    'status' => 'success'
+                    'status' => 'waiting confirmation'
                 ]);
         Cart::where('user_id',$id_user)->update([
                 'status' => 'checkedout'

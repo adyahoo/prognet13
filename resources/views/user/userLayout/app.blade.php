@@ -123,7 +123,7 @@
                 <i class="fas fa-bell fa-fw"></i>
                 <!-- Counter - Alerts -->
                 @if(Auth::guard('user')->user()->unreadNotifications->count())
-                  <span class="badge badge-danger badge-counter" name="countNtf" id="countNtf"></span>
+                  <span class="badge badge-danger badge-counter" name="countNtf" id="countNtf">{{Auth::guard('user')->user()->unreadNotifications->count()}}</span>
                 @endif
               </a>
               <!-- Dropdown - Alerts -->
@@ -135,7 +135,7 @@
                   <a href="/markRead" class="dropdown-item d-flex align-items-center">Mark All as Read</a>
                 </h6>
                 @foreach(Auth::guard('user')->user()->unreadNotifications as $notif)
-                <a class="dropdown-item d-flex align-items-center" href="/markRead">
+                <a class="dropdown-item d-flex align-items-center btnunNotif" data-num="{{$loop->iteration}}" href="#">
                   <div class="mr-3">
                     <div class="icon-circle bg-warning">
                       <i class="fas fa-file-alt text-white"></i>
@@ -143,12 +143,15 @@
                   </div>
                   <div>
                     <div class="small text-gray-500">{{$notif->created_at}}</div>
-                    <span class="font-weight-bold" style="color:lightgray">{{$notif->data['content']}}</span>
+                    <span class="font-weight-bold" style="color:lightgray" >{{$notif->data['content']}}</span>
+                    <input type="hidden" id="untype_{{$loop->iteration}}" value="{{$notif->type}}">
+                    <input type="hidden" id="unread_at_{{$loop->iteration}}" value="{{$notif->read_at}}">
+                    <input type="hidden" id="id_unntf_{{$loop->iteration}}" value="{{$notif->id}}">
                   </div>
                 </a>
                 @endforeach
                 @foreach(Auth::guard('user')->user()->readNotifications as $notif)
-                <a class="dropdown-item d-flex align-items-center" href="/markRead">
+                <a class="dropdown-item d-flex align-items-center btnNotif" data-num="{{$loop->iteration}}" href="#">
                   <div class="mr-3">
                     <div class="icon-circle bg-primary">
                       <i class="fas fa-file-alt text-white"></i>
@@ -157,6 +160,9 @@
                   <div>
                     <div class="small text-gray-500">{{$notif->created_at}}</div>
                     <span class="font-weight-bold" style="color:black">{{$notif->data['content']}}</span>
+                    <input type="hidden" id="type_{{$loop->iteration}}" value="{{$notif->type}}">
+                    <input type="hidden" id="read_at_{{$loop->iteration}}" value="{{$notif->read_at}}">
+                    <input type="hidden" id="id_ntf_{{$loop->iteration}}" value="{{$notif->id}}">
                   </div>
                 </a>
                 @endforeach
@@ -264,18 +270,52 @@
   <script src="https://js.pusher.com/6.0/pusher.min.js"></script>
 
   <script type="text/javascript">
-    $(document).ready(function(){
+      $('.btnNotif').click(function(){
+        var number = $(this).data("num");
         $.ajax({
-          url: '/getNotif',
-          type: "GET",
-          dataType: "json",
+          url: "{{url('/getNotif')}}",
+          type: "POST",
+          data:{
+            _token: '{{csrf_token()}}',
+            id_ntf: $('#id_ntf_'+number).val(),
+            type: $('#type_'+number).val(),
+            read_at: $('#read_at_'+number).val(),
+          },
           success: function(data){
-            // alert("sukses");
-            var sumNotif = data['count'];
-            document.getElementById("countNtf").innerHTML = sumNotif;
+            //1 = respon, 2 = status
+            if (data == 1) {
+              alert("silahkan cek review anda");
+              location.reload();
+            }else if(data == 2){
+              window.location.href = "/pesananuser";
+            }
+            
+            // window.location.href = "/";
           }
         });
-    });
+      });
+
+      $('.btnunNotif').click(function(){
+        var number = $(this).data("num");
+        $.ajax({
+          url: "{{url('/getNotif')}}",
+          type: "POST",
+          data:{
+            _token: '{{csrf_token()}}',
+            id_ntf: $('#id_unntf_'+number).val(),
+            type: $('#untype_'+number).val(),
+            read_at: $('#unread_at_'+number).val(),
+          },
+          success: function(data){
+            if (data == 1) {
+              alert("silahkan cek review anda");
+              location.reload();
+            }else if(data == 2){
+              window.location.href = "/pesananuser";
+            }
+          }
+        });
+      });
     
   </script>
 

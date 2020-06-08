@@ -190,4 +190,4 @@ Route::post('/reportBulan','TransactionsController@getBulan');
 Route::post('/reportTahun','TransactionsController@getTahun');
 Route::post('/grafik','TransactionsController@grafik');
 Route::get('/grafik','TransactionsController@getGrafik');
-Route::get('/getNotif','NotifController@getNotif');
+Route::post('/getNotif','NotifController@getNotif');

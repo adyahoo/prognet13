@@ -69,7 +69,7 @@ class TransactionsAdmin extends Controller
         return view('admin.konfirmasi',compact('admin','transactions','proof'));
     }
 
-public function review(){
+    public function review(){
         $all_review = Product_Review::with('User','Product')->get();
         $admin = Auth::guard('admin')->user();
         return view('admin.response',compact('all_review','admin'));

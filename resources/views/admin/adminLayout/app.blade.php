@@ -209,7 +209,7 @@
                   <a href="/markRead" class="dropdown-item d-flex align-items-center">Mark All as Read</a>
                 </h6>
                 @foreach(Auth::guard('admin')->user()->unreadNotifications as $notif)
-                <a class="dropdown-item d-flex align-items-center" data-toggle="modal" data-target="#notifModal" href="#">
+                <a class="dropdown-item d-flex align-items-center btnunNotif" data-num="{{$loop->iteration}}" href="#">
                   <div class="mr-3">
                     <div class="icon-circle bg-warning">
                       <i class="fas fa-file-alt text-white"></i>
@@ -217,12 +217,15 @@
                   </div>
                   <div>
                     <div class="small text-gray-500">{{$notif->created_at}}</div>
-                    <span class="btnNotif" id="btnNotif" style="color:lightgray">{{$notif->data['content']}}</span>
+                    <span class="font-weight-bold" style="color:lightgray" >{{$notif->data['content']}}</span>
+                    <input type="hidden" name="untype" id="untype_{{$loop->iteration}}" value="{{$notif->type}}">
+                    <input type="hidden" name="unread_at" id="unread_at_{{$loop->iteration}}" value="{{$notif->read_at}}">
+                    <input type="hidden" name="id_unntf" id="id_unntf_{{$loop->iteration}}" value="{{$notif->id}}">
                   </div>
                 </a>
                 @endforeach
                 @foreach(Auth::guard('admin')->user()->readNotifications as $notif)
-                <a class="dropdown-item d-flex align-items-center" href="/markRead">
+                <a class="dropdown-item d-flex align-items-center btnNotif" data-num="{{$loop->iteration}}" href="#">
                   <div class="mr-3">
                     <div class="icon-circle bg-primary">
                       <i class="fas fa-file-alt text-white"></i>
@@ -231,6 +234,9 @@
                   <div>
                     <div class="small text-gray-500">{{$notif->created_at}}</div>
                     <span class="font-weight-bold" style="color:black">{{$notif->data['content']}}</span>
+                    <input type="hidden" id="type_{{$loop->iteration}}" value="{{$notif->type}}">
+                    <input type="hidden" id="read_at_{{$loop->iteration}}" value="{{$notif->read_at}}">
+                    <input type="hidden" id="id_ntf_{{$loop->iteration}}" value="{{$notif->id}}">
                   </div>
                 </a>
                 @endforeach
@@ -262,36 +268,6 @@
                 </a>
               </div>
             </li>
-
-            <div class="modal fade" id="notifModal" tabindex="-1" role="dialog" aria-hidden="true">
-              <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Detail Notifikasi</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                  </div>
-                  <div class="modal-body">
-                    <form method="POST" action="/pesananuser/konfirmasi" enctype="multipart/form-data">
-                      @csrf
-                      <input type="hidden" name="id_transaksi" id="id_transaksi" value="">
-                      <div class="col">
-                        <label class="label">Bukti Pembayaran</label>
-                        <div class="form-group" >
-                          <!-- data-validate = "Profile is required" -->
-                          <input type="file" name="proof" id="proof" class="form-control">
-                          <span class="focus-input100"></span>
-                        </div>
-                      </div>
-                      <br>
-                      <div class="modal-footer">
-                        <button type="submit" class="btn btn-success">Konfirmasi Pembayaran</button>
-                      </form>
-                    </div>
-                  </div>
-                </div>
-            </div>
 
           </ul>
 
@@ -365,11 +341,54 @@
   <script type="text/javascript" src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
 
   <script type="text/javascript">
-    var span = document.getElementById('#btnNotif');
+      $('.btnNotif').click(function(){
+        var number = $(this).data("num");
+        $.ajax({
+          url: "{{url('/getNotif')}}",
+          type: "POST",
+          data:{
+            _token: '{{csrf_token()}}',
+            id_ntf: $('#id_ntf_'+number).val(),
+            type: $('#type_'+number).val(),
+            read_at: $('#read_at_'+number).val(),
+          },
+          success: function(data){
+            //1 = review baru, 2 = transaksi baru, 3 = upload proof
+            if (data == 1) {
+              window.location.href = "/responseadmin";
+            }else if(data == 2){
+              window.location.href = "/konfirmasiAdmin";
+            }else if(data == 3){
+              window.location.href = "/konfirmasiAdmin";
+            }
+            
+            // window.location.href = "/";
+          }
+        });
+      });
 
-    span.click = function(){
-      alert("sukses");
-    }
+      $('.btnunNotif').click(function(){
+        var number = $(this).data("num");
+        $.ajax({
+          url: "{{url('/getNotif')}}",
+          type: "POST",
+          data:{
+            _token: '{{csrf_token()}}',
+            id_ntf: $('#id_unntf_'+number).val(),
+            type: $('#untype_'+number).val(),
+            read_at: $('#unread_at_'+number).val(),
+          },
+          success: function(data){
+            if (data == 1) {
+              window.location.href = "/responseadmin";
+            }else if(data == 2){
+              window.location.href = "/konfirmasiAdmin";
+            }else if(data == 3){
+              window.location.href = "/konfirmasiAdmin";
+            }
+          }
+        });
+      });
   </script>
 
   <script>
