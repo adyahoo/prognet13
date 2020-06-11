@@ -68,12 +68,6 @@
                 <center>
                   <input id="countdown_{{$count}}" type="hidden" name="countdown_{{$count}}" ></input>
                   <input type="hidden" name="created_at_{{$count}}" id="created_at_{{$count}}" value="{{$trans->created_at}}">
-                  <input type="hidden" name="timeout_{{$count}}" id="timeout_{{$count}}" value="{{$trans->timeout}}">
-                  <form action="/pesananuser/{{ $trans->id }}" method="POST" class="d-inline">
-                    @method('delete')
-                    @csrf
-                    <button type="submit" class="btn btn-danger">Delete</button>
-                  </form>
                 </center>
               </td>
             </tr>

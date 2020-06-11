@@ -25,6 +25,7 @@
               <th>Price</th>
               <th>Qty</th>
               <th>Total</th>
+              <th>Status</th>
               <th>Aksi</th>
             </tr>
           </thead>
@@ -37,6 +38,7 @@
               <td>{{$cart->product->price}}</td>
               <td>{{$cart->qty}}</td>
               <td>{{$cart->product->price * $cart->qty}}</td>
+              <td>{{$cart->status}}</td>
               <td>
                 <center>
                   <a href="#" data-target="#editcartModal" data-toggle="modal" class="btn btn-primary">Edit</a>
@@ -47,6 +49,16 @@
                   </form>
                 </center>
               </td>
+            </tr>
+            @elseif($cart->status == 'cancelled')
+            <tr>
+              <td>{{ $loop->iteration }}</td>
+              <td>{{$cart->product->product_name}}</td>
+              <td>{{$cart->product->price}}</td>
+              <td>{{$cart->qty}}</td>
+              <td>{{$cart->product->price * $cart->qty}}</td>
+              <td>{{$cart->status}}</td>
+              <td></td>
             </tr>
             @endif
             @endforeach

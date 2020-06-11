@@ -114,7 +114,10 @@ class CartsController extends Controller
     {
         $cart_id = $cart->id;
         // dd($cart_id);
-        Cart::destroy($cart_id);
+        // Cart::destroy($cart_id);
+        Cart::where('id',$cart_id)->update([
+            'status' => 'cancelled'
+        ]);
         return redirect('/cartuser');
     }
 

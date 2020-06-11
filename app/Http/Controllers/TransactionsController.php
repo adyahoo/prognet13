@@ -148,11 +148,10 @@ class TransactionsController extends Controller
             Transaction_Detail::destroy($detail->id);
         }
 
-        Transaction::destroy($transaction_id);
-        // Transaction::where('id', $transaction_id)
-        //         ->update([
-        //             'status' => 'canceled'
-        //         ]);
+        Transaction::where('id', $transaction_id)
+                ->update([
+                    'status' => 'canceled'
+                ]);
 
         return redirect('/pesananuser');
     }
